@@ -1,3 +1,0 @@
-1. kalo udh bikin panel admin, edit logika format nomor telpon agar ada fotur ganti nomor admin jika nomor nya rusak dll
-2. klo mau ada halaman / pagnation di destinasi, pakai lates tapi klo udh pake db nanti nya
-3.futur seacrh perlu konfigurasi ulang jika sudah menggunakan db
