@@ -44,8 +44,8 @@
     
     <div class="relative overflow-hidden">
         <img class="w-full h-60 object-cover transition-transform duration-700 group-hover:scale-110" 
-             src="{{ $paket['image'] }}" 
-             alt="{{ $paket['nama'] }}" />
+            src="{{ $paket['image'] }}" 
+            alt="{{ $paket['nama'] }}" />
         
         <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-bold text-gray-800 shadow-sm">
             {{ $paket['durasi'] }}

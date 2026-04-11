@@ -11,9 +11,20 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-/* logika sidebar nav mobile mode */
+/* logika navbar */
 /* kode harus dibungkus dalam listener DOMContentLoaded. Karena Vite memuat script sebagai module, terkadang script jalan sebelum elemen HTML selesai dibuat*/
 document.addEventListener("DOMContentLoaded", function() {
+    // Logika Scroll Navbar (dari atas)
+    const navbar = document.getElementById('navbar');
+    window.onscroll = () => {
+        if (window.scrollY > 50) {
+            navbar.classList.replace('bg-black/20', 'bg-black/50');
+        } else {
+            navbar.classList.replace('bg-black/50', 'bg-black/20');
+        }
+    };
+
+    //logika sidebar (mobile)
     const sidebarMenu = document.getElementById('sidebarMenu');
     const sidebarOverlay = document.getElementById('sidebarOverlay');
     const openSidebarBtn = document.getElementById('openSidebarBtn');
