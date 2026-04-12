@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-class Pakets {
+class Pakets
+{
     public static function allPaket()
     {
         return [
@@ -10,11 +11,18 @@ class Pakets {
                 'id' => 1,
                 'nama' => 'Pesiaran Nusa Penida',
                 'slug' => 'nusa-penida-trip',
+                'kategori' => ['Open Trip', 'Family Gathering'],
+                'is_recommended' => false,
                 'harga' => 1500000,
                 'durasi' => '2 Hari 1 Malam',
                 'lokasi' => 'Bali',
                 'image' => 'https://images.unsplash.com/photo-1537996194471-e657df975ab4',
                 'deskripsi' => 'Menikmati keindahan Kelingking Beach, Broken Beach, dan snorkeling di Crystal Bay.',
+                'gallery' => [
+                    'https://images.unsplash.com/photo-1537996194471-e657df975ab4?q=80&w=1000',
+                    'https://images.unsplash.com/photo-1544644181-1484b3fdfc62?q=80&w=1000',
+                    'https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?q=80&w=1000'
+                ],
                 'itinerary' => [
                     [
                         'hari' => 'Hari 1 (MS, MM)',
@@ -54,9 +62,9 @@ class Pakets {
                     'Tip Supir/Guide lokal (Sukarela)'
                 ],
                 'catatan' => [
+                    'Keberangkatan Open Trip minimal 6 Pax. Jika kuota tidak terpenuhi, jadwal akan disesuaikan.',
                     'Jadwal penyeberangan fastboat sangat bergantung pada kondisi cuaca.',
                     'Peserta disarankan membawa sunblock, topi, dan kacamata hitam.',
-                    'Mohon bawa pakaian ganti dan pakaian renang untuk hari kedua.',
                     'Harga berlaku untuk WNI, WNA dikenakan tambahan Rp 150.000.'
                 ]
             ],
@@ -64,11 +72,18 @@ class Pakets {
                 'id' => 2,
                 'nama' => 'Sunrise Bromo Adventure',
                 'slug' => 'bromo-sunrise',
+                'kategori' => ['Open Trip'],
+                'is_recommended' => true,
                 'harga' => 850000,
                 'durasi' => '1 Hari',
                 'lokasi' => 'Jawa Timur',
                 'image' => 'https://images.unsplash.com/photo-1666138873881-f43934e1ec71',
                 'deskripsi' => 'Melihat matahari terbit dari Penanjakan 1, dilanjutkan eksplorasi kawah Bromo dan Pasir Berbisik.',
+                'gallery' => [
+                    'https://images.unsplash.com/photo-1537996194471-e657df975ab4?q=80&w=1000',
+                    'https://images.unsplash.com/photo-1544644181-1484b3fdfc62?q=80&w=1000',
+                    'https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?q=80&w=1000'
+                ],
                 'itinerary' => [
                     [
                         'hari' => 'Hari 1 (Snack Pagi)',
@@ -99,21 +114,28 @@ class Pakets {
                     'Dokumentasi Drone / Fotografer khusus'
                 ],
                 'catatan' => [
+                    'Open trip ini digabung dengan peserta lain (minimum jalan 5 orang per Jeep).',
                     'Suhu udara di Bromo bisa mencapai 5-10 derajat Celcius.',
                     'Peserta DIWAJIBKAN membawa jaket tebal, sarung tangan, kupluk, dan masker.',
-                    'Bagi yang memiliki riwayat asma, mohon membawa obat-obatan pribadi.',
-                    'Open trip digabung dengan peserta lain, jika ingin private silakan hubungi admin.'
+                    'Bagi yang memiliki riwayat asma, mohon membawa obat-obatan pribadi.'
                 ]
             ],
             [
                 'id' => 3,
                 'nama' => 'Eksotisme Labuan Bajo',
                 'slug' => 'labuan-bajo-trip',
+                'kategori' => ['Open Trip', 'Meeting Planner', 'Family Gathering'],
+                'is_recommended' => true,
                 'harga' => 4500000,
                 'durasi' => '3 Hari 2 Malam',
                 'lokasi' => 'NTT',
                 'image' => 'https://images.unsplash.com/photo-1516690561799-46d8f74f9abf',
                 'deskripsi' => 'Live on board menggunakan kapal phinisi, mengunjungi Pulau Padar, Komodo, dan Pink Beach.',
+                'gallery' => [
+                    'https://images.unsplash.com/photo-1537996194471-e657df975ab4?q=80&w=1000',
+                    'https://images.unsplash.com/photo-1544644181-1484b3fdfc62?q=80&w=1000',
+                    'https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?q=80&w=1000'
+                ],
                 'itinerary' => [
                     [
                         'hari' => 'Hari 1 (MS, MM)',
@@ -164,8 +186,9 @@ class Pakets {
                     'Tip untuk kru kapal'
                 ],
                 'catatan' => [
+                    'Tersedia opsi charter (Private Phinisi) untuk rombongan Family Gathering atau Corporate/Meeting Planner.',
+                    'Untuk Open Trip, peserta akan sharing fasilitas dek dengan peserta lain (minimal keberangkatan 8 Pax).',
                     'Jadwal itinerary bersifat fleksibel tergantung arus laut dan cuaca.',
-                    'Dilarang menerbangkan drone di kawasan Taman Nasional tanpa izin resmi.',
                     'Wanita yang sedang haid/menstruasi DIWAJIBKAN melapor kepada Ranger sebelum melihat Komodo.'
                 ]
             ],
@@ -173,6 +196,7 @@ class Pakets {
                 'id' => 4,
                 'nama' => 'City Tour Yogyakarta',
                 'slug' => 'jogja-heritage',
+                'kategori' => ['Family Gathering', 'Meeting Planner'],
                 'harga' => 500000,
                 'durasi' => '1 Hari',
                 'lokasi' => 'Yogyakarta',
@@ -195,7 +219,7 @@ class Pakets {
                     ]
                 ],
                 'termasuk' => [
-                    'Transportasi Mobil AC Privat (Avanza/Innova)',
+                    'Transportasi Mobil AC Privat (Avanza/Innova/Hiace/Bus Sedang)',
                     'Supir merangkap Guide lokal',
                     'BBM dan Biaya Parkir',
                     'Tiket masuk semua objek wisata (Borobudur - Pelataran, Keraton, Taman Sari)',
@@ -209,16 +233,17 @@ class Pakets {
                     'Tip Supir'
                 ],
                 'catatan' => [
-                    'Harga berlaku untuk minimal keberangkatan 4 Pax.',
+                    'Harga di atas berlaku untuk minimal keberangkatan 4 Pax.',
+                    'Sangat cocok untuk rombongan meeting planner (Outing Perusahaan) atau kumpul keluarga.',
                     'Pakaian harus sopan (menutup bahu dan lutut) saat mengunjungi Keraton dan Borobudur.',
-                    'Khusus hari Senin, sebagian besar museum di dalam Keraton tutup.',
-                    'Lalu lintas di sekitar Malioboro mungkin padat, jadwal akan disesuaikan.'
+                    'Khusus hari Senin, sebagian besar museum di dalam Keraton tutup.'
                 ]
             ],
             [
                 'id' => 5,
                 'nama' => 'Jelajah Alam Sumba',
                 'slug' => 'sumba-explore',
+                'kategori' => ['Open Trip'],
                 'harga' => 3200000,
                 'durasi' => '4 Hari 3 Malam',
                 'lokasi' => 'NTT',
@@ -277,6 +302,7 @@ class Pakets {
                     'Tipping Guide & Driver'
                 ],
                 'catatan' => [
+                    'Keberangkatan Open Trip minimal 4 Pax.',
                     'Bawalah pakaian yang nyaman untuk aktivitas outdoor dan trekking ringan.',
                     'Dilarang merusak atau mengambil benda apapun di area kampung adat.'
                 ]
@@ -285,6 +311,8 @@ class Pakets {
                 'id' => 6,
                 'nama' => 'Pesona Belitung',
                 'slug' => 'belitung-trip',
+                'kategori' => ['Family Gathering', 'Meeting Planner'],
+                'is_recommended' => true,
                 'harga' => 1250000,
                 'durasi' => '3 Hari 2 Malam',
                 'lokasi' => 'Bangka Belitung',
@@ -338,6 +366,7 @@ class Pakets {
                     'Keperluan pribadi'
                 ],
                 'catatan' => [
+                    'Rute sangat santai dan minim trekking, ideal untuk liburan keluarga atau corporate trip/meeting.',
                     'Pulau Pasir hanya dapat dikunjungi saat air laut surut.',
                     'Gunakan alas kaki yang nyaman karena banyak aktivitas di pasir pantai.'
                 ]
@@ -346,6 +375,8 @@ class Pakets {
                 'id' => 7,
                 'nama' => 'Derawan Island Hopping',
                 'slug' => 'derawan-island',
+                'kategori' => ['Open Trip', 'Family Gathering'],
+                'is_recommended' => true,
                 'harga' => 2800000,
                 'durasi' => '3 Hari 2 Malam',
                 'lokasi' => 'Kalimantan Timur',
@@ -398,6 +429,7 @@ class Pakets {
                     'Sewa kamera bawah air'
                 ],
                 'catatan' => [
+                    'Open Trip tersedia setiap weekend (Jumat-Minggu) dengan minimal keberangkatan 4 Pax.',
                     'Dilarang menggunakan sunblock berkimia saat berenang di Danau Kakaban agar tidak merusak ubur-ubur.',
                     'Kemunculan Manta Ray di Sangalaki bersifat alami dan tidak dijamin 100%.'
                 ]
@@ -406,6 +438,7 @@ class Pakets {
                 'id' => 8,
                 'nama' => 'Pesona Danau Toba',
                 'slug' => 'toba-samosir',
+                'kategori' => ['Family Gathering', 'Meeting Planner'],
                 'harga' => 1750000,
                 'durasi' => '3 Hari 2 Malam',
                 'lokasi' => 'Sumatera Utara',
@@ -449,7 +482,7 @@ class Pakets {
                     ]
                 ],
                 'termasuk' => [
-                    'Transportasi Darat (Mobil/Hiace Ber-AC)',
+                    'Transportasi Darat (Mobil/Hiace/Bus Pariwisata Ber-AC)',
                     'Tiket Feri penyeberangan Parapat - Samosir PP',
                     'Akomodasi 1 Malam Samosir, 1 Malam Berastagi',
                     'Makan sesuai itinerary',
@@ -462,25 +495,27 @@ class Pakets {
                     'Pengeluaran Pribadi'
                 ],
                 'catatan' => [
+                    'Sangat cocok dan direkomendasikan untuk acara Family Gathering atau Group Tour besar.',
                     'Udara di Berastagi cukup dingin di malam hari, disarankan membawa jaket.',
                     'Waktu tempuh antar kota cukup panjang, siapkan kondisi fisik yang prima.'
                 ]
             ]
         ];
-    } 
-
-    public static function findPaket($slug){
-    // 1. Ambil semua data paket
-    $semuaData = collect(static::allPaket());
-    
-    // 2. Cari satu data pertama yang slug-nya cocok dengan parameter di URL
-    $paket = $semuaData->firstWhere('slug', $slug);
-
-    // 3. Jika paket tidak ditemukan, tampilkan halaman 404 (Not Found)
-    if (!$paket) {
-        abort(404);
     }
 
-    return $paket;
+    public static function findPaket($slug)
+    {
+        // 1. Ambil semua data paket
+        $semuaData = collect(static::allPaket());
+
+        // 2. Cari satu data pertama yang slug-nya cocok dengan parameter di URL
+        $paket = $semuaData->firstWhere('slug', $slug);
+
+        // 3. Jika paket tidak ditemukan, tampilkan halaman 404 (Not Found)
+        if (!$paket) {
+            abort(404);
+        }
+
+        return $paket;
     }
 }

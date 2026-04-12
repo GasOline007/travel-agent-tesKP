@@ -5,12 +5,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /* route home.blade */
+
 Route::get('/', function () {
     // Ambil semua data dari Model Pakets, ubah jadi Collection
     $semuaPaket = collect(Pakets::allPaket());
 
-    // Ambil 3 paket pertama saja untuk hook di halaman utama
-    $hookPakets = $semuaPaket->take(3);
+    // Filter hanya yang is_recommended nya true, lalu ambil 3 saja
+    $hookPakets = $semuaPaket->where('is_recommended', true)->take(3);
 
     return view('home', [
         'hookPakets' => $hookPakets
@@ -19,61 +20,61 @@ Route::get('/', function () {
 
 /* route destinasi.blade */
 Route::get('/destinasi', function (Request $request) {
-    // 1. Ambil kata kunci dari URL (?cari=...)
+    // 1. Ambil input dari URL (?cari=...&kategori=...)
     $keyword = $request->cari;
+    $kategori = $request->kategori;
 
     // 2. Ambil semua data
     $semuaData = collect(Pakets::allPaket());
-    $pakets = $semuaData;
 
-    // Siapkan variabel penanda (secara default false/tidak error)
+    // Siapkan variabel penanda
     $notFound = false;
 
-    // 3. Logika Pencarian
-    if ($keyword) {
-        // Jika ada pencarian, saring/filter array-nya
-        $hasilCari = $semuaData->filter(function ($paket) use ($keyword) {
-            // stripos digunakan agar pencarian tidak peduli huruf besar/kecil
-            $cariNama = stripos($paket['nama'], $keyword) !== false;
-            $cariLokasi = stripos($paket['lokasi'], $keyword) !== false;
-            // Kembalikan data jika nama ATAU lokasi cocok
-            return $cariNama || $cariLokasi;
+    // 3. Logika Filter Gabungan
+    // Kita lakukan filter jika ada keyword ATAU ada kategori yang dipilih
+    if ($keyword || $kategori) {
+        $pakets = $semuaData->filter(function ($paket) use ($keyword, $kategori) {
+
+            // Logika Pencarian Teks (Nama atau Lokasi)
+            $matchKeyword = true;
+            if ($keyword) {
+                $matchKeyword = (stripos($paket['nama'], $keyword) !== false) ||
+                    (stripos($paket['lokasi'], $keyword) !== false);
+            }
+
+            // Logika Filter Kategori
+            $matchKategori = true;
+            if ($kategori) {
+                // Karena 'kategori' di data kita adalah array, gunakan in_array
+                // Kita pastikan $paket['kategori'] ada, baru kita cek
+                $matchKategori = isset($paket['kategori']) && in_array($kategori, $paket['kategori']);
+            }
+
+            // Data lolos jika cocok dengan keyword DAN cocok dengan kategori
+            return $matchKeyword && $matchKategori;
         });
-        // CEK DI SINI: Jika hasil pencarian kosong
-        if ($hasilCari->isEmpty()) {
-            $notFound = true;       // Nyalakan sinyal alert
-            // $pakets tetap berisi $semuaData (sesuai inisialisasi di atas)
-        }else{
-            $pakets = $hasilCari;
+
+        // Cek jika hasil filter kosong
+        if ($pakets->isEmpty()) {
+            $notFound = true;
+            $pakets = $semuaData; // Balikkan ke semua data jika tidak ketemu
         }
     } else {
-        // Jika tidak mencari apa-apa, tampilkan semua
         $pakets = $semuaData;
     }
 
-    // Ambil maksimal 12 data (jika mau)
-    /* $pakets = $semuaData->take(12); */
-
-    //return ke view
+    // 4. Return ke view
     return view('destinasi', [
         'allPakets' => $pakets,
-        'keyword' => $keyword, // Kirim kata kunci ke tampilan agar bisa disebut di alert
-        'notFound' => $notFound // Kirim sinyal alert ke tampilan
+        'keyword' => $keyword,
+        'selectedKategori' => $kategori, // Kirim ini agar UI tahu kategori mana yang aktif
+        'notFound' => $notFound
     ]);
 });
 
-/* route about.blade */
-Route::get('/about', function () {
-    return view('about');
-});
-
-/* Route::get('paket/{id}', function ($id) {
-    dd($id);
-}); */
-    
 /* route detailPaket.blade */
 Route::get('/paket/{slug}', function ($slug) {
-    $paket = Pakets::findPaket($slug);  
+    $paket = Pakets::findPaket($slug);
 
     // 3. Jika paket tidak ditemukan, tampilkan halaman 404 (Not Found)
     if (!$paket) {
@@ -132,9 +133,7 @@ Route::get('/galeri', function () {
     ]);
 });
 
-
-/* route travelTips.blade */
-
-/* Route::get('/', function () {
-        return view('welcome');
-    }); */
+/* route about.blade */
+Route::get('/about', function () {
+    return view('about');
+});
