@@ -38,7 +38,7 @@
     <div class="max-w-3xl mx-auto -mt-8">
         <form action="/destinasi" method="GET" class="relative">
             {{-- search input group --}}
-            <div class="relative">
+            <div class="relative mx-2">
                 <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
                     <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -49,10 +49,12 @@
                     class="block w-full p-4 pl-12 text-gray-900 shadow-xl rounded-full bg-white focus:ring-lime-400 focus:border-lime-400 transition-all outline-none"
                     placeholder="Cari destinasi">
                 <button type="submit"
-                    class="text-gray-900 absolute right-2.5 bottom-2.5 bg-lime-400 hover:bg-lime-500 font-bold rounded-full text-sm px-6 py-2 transition-colors">
+                    class="cursor-pointer text-gray-900 absolute right-2.5 bottom-2.5 bg-lime-400 hover:bg-lime-500 font-bold rounded-full text-sm px-6 py-2 transition-colors">
                     Cari
                 </button>
             </div>
+            
+            
             
             {{-- Category Filters (Pill Style) --}}
             <div class="mt-6 px-4 md:px-0">
@@ -115,5 +117,91 @@
             @endforelse
         </div>
     </main>
+
+
+
+
+
+
+    {{-- CTA Custom Paket --}}
+<section class="max-w-7xl mx-auto px-4 md:px-6 lg:px-12 pb-20">
+    <div class="bg-zinc-900 rounded-3xl px-8 py-12 md:px-12 md:py-16 shadow-lg">
+
+        <div class="flex flex-col lg:flex-row items-center justify-between gap-12">
+
+            {{-- Kiri: Teks --}}
+            <div class="text-center lg:text-left max-w-xl">
+                
+                <span class="block mb-3 text-travel-primary text-sm font-semibold tracking-wide uppercase">
+                    Tidak menemukan yang cocok?
+                </span>
+
+                <h2 class="text-3xl md:text-4xl font-bold text-white leading-tight mb-5">
+                    Buat Paket Wisata <br class="hidden md:block">
+                    <span class="text-travel-tertiary">Sesuai Keinginanmu</span>
+                </h2>
+
+                <p class="text-zinc-400 text-base leading-relaxed">
+                    Ceritakan destinasi impian, jumlah peserta, dan budget Anda. Tim kami akan merancang itinerary eksklusif khusus untuk Anda.
+                </p>
+
+            </div>
+
+            {{-- Kanan: Fitur + Tombol --}}
+            <div class="flex flex-col items-center lg:items-start gap-8 shrink-0 w-full lg:w-auto">
+
+                {{-- 3 Poin Keunggulan (Tanpa Border, Menggunakan SVG) --}}
+                <div class="flex flex-wrap justify-center lg:justify-start gap-6 sm:gap-8 w-full">
+                    
+                    <div class="flex items-center gap-3">
+                        <div class="p-2 bg-white/10 rounded-lg text-travel-tertiary">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <span class="text-zinc-200 text-sm font-medium">Bebas Destinasi</span>
+                    </div>
+
+                    <div class="flex items-center gap-3">
+                        <div class="p-2 bg-white/10 rounded-lg text-travel-tertiary">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <span class="text-zinc-200 text-sm font-medium">Sesuai Budget</span>
+                    </div>
+
+                    <div class="flex items-center gap-3">
+                        <div class="p-2 bg-white/10 rounded-lg text-travel-tertiary">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                        </div>
+                        <span class="text-zinc-200 text-sm font-medium">Respon Cepat</span>
+                    </div>
+
+                </div>
+
+                {{-- Tombol CTA & Keterangan --}}
+                <div class="flex flex-col items-center lg:items-start gap-3 w-full">
+                    <a href="/custom-paket"
+                        class="group inline-flex w-full sm:w-auto items-center justify-center gap-2 bg-travel-tertiary hover:bg-white text-zinc-900 font-semibold text-sm px-8 py-3.5 rounded-full transition-colors duration-300">
+                        Buat Custom Paket Sekarang
+                        <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                        </svg>
+                    </a>
+                    <p class="text-zinc-500 text-sm flex items-center gap-1.5">
+                        <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        Gratis konsultasi via WhatsApp
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
 
 @endsection

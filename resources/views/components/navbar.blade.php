@@ -1,17 +1,26 @@
 <header id="navbar"
-    class="fixed space-x-2 bg-black/20 backdrop-blur-md border-white/10 shadow-lg left-0 top-0 w-full z-20 flex items-center justify-between py-4 px-8 text-white transition-all duration-300">
+    class="fixed space-x-2 bg-[#fdfdfd] border-white/10 shadow-lg left-0 top-0 w-full h-20 z-20 flex items-center justify-between px-8 md:px-16 transition-all duration-300">
     <div class="flex items-center space-x-2">
-        <svg class="w-6 h-6 md:w-8 md:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-        </svg>
-        <a href="/" class="text-2xl md:text-3xl font-bold tracking-tight">Arfaka</a href="/">
+        <a href="/">
+            <img src="{{ asset('img/logoArfaka.svg') }}" alt="logo" class="h-8 md:h-12">
+        </a>
     </div>
 
+    <!-- Navigasi Desktop -->
     <div class="hidden lg:block">
-        <nav class="flex gap-2">
+        <nav class="flex">
             <x-nav-link href="/" :active="request()->is('/')">Beranda</x-nav-link>
-            <x-nav-link href="/destinasi" :active="request()->is('destinasi')">Destinasi</x-nav-link>
+            <!-- Dropdown Destinasi Desktop -->
+            <x-nav-dropdown title="Destinasi" :active="request()->is('destinasi*')">
+                <a href="/destinasi/domestik"
+                    class="block px-6 py-4 text-lg text-gray-500 hover:bg-travel-primary/20 hover:text-gray-900 font-medium transition-colors">
+                    Domestik
+                </a>
+                <a href="/destinasi/mancanegara"
+                    class="block px-6 py-4 text-lg text-gray-500 hover:bg-travel-primary/20 hover:text-gray-900 font-medium transition-colors">
+                    Mancanegara
+                </a>
+            </x-nav-dropdown>
             <x-nav-link href="/galeri" :active="request()->is('galeri')">Galeri</x-nav-link>
             <x-nav-link href="/about" :active="request()->is('about')">Tentang</x-nav-link>
         </nav>
@@ -31,9 +40,9 @@
 
         {{-- dropdown button --}}
         <button id="openSidebarBtn"
-            class="lg:hidden p-2 bg-gray-200 rounded-lg hover:bg-gray-200/80 transition cursor-pointer">
+            class="lg:hidden p-2 rounded-lg active:border border-gray-950 transition cursor-pointer">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                class="size-7 text-gray-950">
+                class="size-8 text-gray-950">
                 <path fill-rule="evenodd"
                     d="M3 6.75A.75.75 0 0 1 3.75 6h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 6.75ZM3 12a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 12Zm8.25 5.25a.75.75 0 0 1 .75-.75h8.25a.75.75 0 0 1 0 1.5H12a.75.75 0 0 1-.75-.75Z"
                     clip-rule="evenodd" />
@@ -41,6 +50,11 @@
         </button>
     </div>
 </header>
+
+
+
+
+
 
 
 {{-- sidebar mode:mobile --}}
@@ -51,7 +65,7 @@
 <div id="sidebarMenu"
     class="fixed top-0 right-0 h-full w-72 bg-white z-50 transform translate-x-full transition-transform duration-300 shadow-2xl flex flex-col">
 
-    <div class="flex items-center justify-between p-6 border-b border-gray-100">
+    <div class="flex items-center justify-between p-6 border-b border-gray-300">
         <span class="text-2xl font-bold text-gray-900 tracking-tight">Menu</span>
         <button id="closeSidebarBtn"
             class="p-2 text-gray-500 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 rounded-full transition cursor-pointer">
@@ -62,15 +76,51 @@
         </button>
     </div>
 
-    <nav class="flex flex-col p-6 space-y-4 grow">
+    <!-- dropdown destinasi"> -->
+    <nav class="flex flex-col px-6 py-2 space-y-5 grow">
+
+        <!-- Link Beranda Biasa -->
         <a href="/"
-            class="text-lg font-medium text-gray-700 hover:text-lime-500 transition-colors {{ request()->is('/') ? 'text-lime-500 font-bold' : '' }}">Beranda</a>
-        <a href="/destinasi"
-            class="text-lg font-medium text-gray-700 hover:text-lime-500 transition-colors {{ request()->is('destinasi') ? 'text-lime-500 font-bold' : '' }}">Destinasi</a>
+            class="text-lg font-medium transition-colors {{ request()->is('/') ? 'text-travel-primary font-bold' : 'text-gray-700 hover:text-travel-primary' }}">
+            Beranda
+        </a>
+
+        <!-- Dropdown Destinasi Versi Mobile (Accordion) -->
+        <div x-data="{ open: 'true' }">
+            <button @click="open = !open"
+                class="flex items-center justify-between w-full text-lg font-medium transition-colors cursor-pointer {{ request()->is('destinasi*') ? 'text-travel-primary font-bold' : 'text-gray-700 hover:text-travel-primary-dark' }}">
+                <span>Destinasi</span>
+
+                <!-- Icon Panah yang berputar saat dibuka -->
+                <svg class="w-5 h-5 transition-transform duration-200" :class="{ 'rotate-180': open }" fill="none"
+                    stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </button>
+
+            <!-- Sub-menu yang muncul di bawahnya -->
+            <div x-show="open" x-transition class="flex flex-col pl-4 mt-3 space-y-3 border-l-2 border-travel-primary"
+                style="display: none;">
+                <a href="/destinasi/domestik"
+                    class="text-base text-gray-600 hover:text-travel-primary font-medium transition-colors cursor-pointer">
+                    Domestik
+                </a>
+                <a href="/destinasi/mancanegara"
+                    class="text-base text-gray-600 hover:text-travel-primary font-medium transition-colors cursor-pointer">
+                    Manca Negara
+                </a>
+            </div>
+        </div>
+
+        <!-- Link Lainnya -->
         <a href="/galeri"
-            class="text-lg font-medium text-gray-700 hover:text-lime-500 transition-colors {{ request()->is('galeri') ? 'text-lime-500 font-bold' : '' }}">Galeri</a>
+            class="text-lg font-medium transition-colors {{ request()->is('galeri') ? 'text-travel-primary font-bold' : 'text-gray-700 hover:text-travel-primary' }}">
+            Galeri
+        </a>
         <a href="/about"
-            class="text-lg font-medium text-gray-700 hover:text-lime-500 transition-colors {{ request()->is('about') ? 'text-lime-500 font-bold' : '' }}">Tentang</a>
+            class="text-lg font-medium transition-colors {{ request()->is('about') ? 'text-travel-primary font-bold' : 'text-gray-700 hover:text-travel-primary' }}">
+            Tentang
+        </a>
     </nav>
 
     <div class="p-6 border-t border-gray-100">

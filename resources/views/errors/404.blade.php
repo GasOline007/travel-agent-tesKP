@@ -18,7 +18,6 @@
 
 <body class="font-sans antialiased text-gray-950 flex flex-col min-h-screen">
     <main class="relative flex-1 flex items-center justify-center px-4 py-20">
-        <div class="absolute inset-0 -z-10 h-full w-full items-center px-5 py-24 [background:radial-gradient(125%_125%_at_50%_10%,#fff_40%,#030712_100%)]"></div>
 
         <div class="relative z-10 text-center max-w-3xl mx-auto">
 

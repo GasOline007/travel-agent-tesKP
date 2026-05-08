@@ -1,25 +1,31 @@
 <?php
 
 use App\Models\Pakets; // Pastikan Model di-import di atas (ini class data dummy JIKA SUDAH ADA DATABASE HAPUS!)
+use App\Models\HeroSlider; // Pastikan Model di-import di atas (ini class data dummy JIKA SUDAH ADA DATABASE HAPUS!)
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /* route home.blade */
 
 Route::get('/', function () {
+    $heroSlider = collect(HeroSlider::allHeroSlider());
+    
     // Ambil semua data dari Model Pakets, ubah jadi Collection
     $semuaPaket = collect(Pakets::allPaket());
+    $paket = Pakets::findPaket("nusa-penida-trip");
 
     // Filter hanya yang is_recommended nya true, lalu ambil 3 saja
     $hookPakets = $semuaPaket->where('is_recommended', true)->take(3);
 
     return view('home', [
+        'paket' => $paket,
+        'heroSlider' => $heroSlider,
         'hookPakets' => $hookPakets
     ]);
 });
 
 /* route destinasi.blade */
-Route::get('/destinasi', function (Request $request) {
+Route::get('/destinasi/domestik', function (Request $request) {
     // 1. Ambil input dari URL (?cari=...&kategori=...)
     $keyword = $request->cari;
     $kategori = $request->kategori;
@@ -136,4 +142,24 @@ Route::get('/galeri', function () {
 /* route about.blade */
 Route::get('/about', function () {
     return view('about');
+});
+
+/* route login.blade */
+Route::get('/login', function () {
+    return view('login');
+});
+
+/* route regis.blade */
+Route::get('/register', function () {
+    return view('register');
+});
+
+/* route custopPaket.blade */
+Route::get('/custom-paket', function () {
+    return view('customPaket');
+});
+
+/* route pilihTipe.blade */
+Route::get('/tipe-destinasi', function () {
+    return view('pilihTipe');
 });

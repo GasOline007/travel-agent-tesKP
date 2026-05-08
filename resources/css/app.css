@@ -8,4 +8,28 @@
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+    
+    /* color variabel */
+    --color-travel-primary: #01aef0;
+    --color-travel-primary-dark: #008cc2; /* Lebih gelap */
+
+    --color-travel-secondary: #00a554;
+    --color-travel-secondary-dark: #008544; /* Lebih gelap */
+
+    --color-travel-tertiary: #f4eb2d;
+    --color-travel-tertiary-dark: #d6cd1e; /* Lebih gelap */
+}
+
+.marquee-track {
+    width: max-content;
+    animation: marquee-scroll 18s linear infinite;
+}
+
+.marquee-paused {
+    animation-play-state: paused !important;
+}
+
+@keyframes marquee-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
 }

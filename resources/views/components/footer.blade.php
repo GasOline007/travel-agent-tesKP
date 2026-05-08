@@ -5,9 +5,6 @@
             
             <div class="lg:col-span-1">
                 <a href="/" class="flex items-center space-x-2 mb-6">
-                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                    </svg>
                     <span class="text-2xl font-bold tracking-tight text-white">Arfaka</span>
                 </a>
                 <p class="text-sm leading-relaxed mb-6">
@@ -56,13 +53,13 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                         </svg>
-                        <span>Jl. Sudirman No. 123, Jakarta Selatan, Indonesia</span>
+                        <span>Jl. Peninggaran Timur III No.33, Rt.005/009, Kebayoran Lama Utara, Jakarta Selatan, Jakarta, Indonesia 12240</span>
                     </li>
                     <li class="flex items-center">
                         <svg class="w-5 h-5 mr-3 text-gray-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                         </svg>
-                        <a href="#" class="hover:text-white transition-colors duration-300">hello@arfaka.com</a>
+                        <a href="#" class="hover:text-white transition-colors duration-300">arfaka@gmail.com</a>
                     </li>
                     <li class="flex items-center">
                         <svg class="w-5 h-5 mr-3 text-gray-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -75,11 +72,8 @@
 
         </div>
 
-        <div class="pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center text-sm">
+        <div class="pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-end items-center text-sm">
             <p>&copy; {{ date('Y') }} Arfaka. All rights reserved.</p>
-            <div class="mt-4 md:mt-0 flex space-x-6">
-                <span class="text-gray-600">Terdaftar secara resmi untuk kerja praktek</span>
-            </div>
         </div>
     </div>
 </footer>
