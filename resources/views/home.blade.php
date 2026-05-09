@@ -293,7 +293,7 @@
 
 
     {{-- Tentang Kami --}}
-    <section class="w-full bg-zinc-50 py-20 px-4 md:px-6 lg:px-12">
+    <section class="w-full bg-zinc-50 pb-20 px-4 md:pt-20 md:px-6 lg:px-12">
         <div class="max-w-7xl mx-auto">
 
             <div class="flex flex-col md:flex-row items-start gap-10 lg:gap-20 mb-16">

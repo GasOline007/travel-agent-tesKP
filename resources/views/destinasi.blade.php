@@ -12,8 +12,7 @@
         {{-- bg image --}}
         <div class="absolute left-0 top-0 w-full h-screen -z-10">
             <img src="{{ asset('img/homepage.avif') }}" alt="Background" class="w-full h-full object-cover">
-            <div class="bg-linear-to-t from-gray-950 via-gray-950/80 to-white/10 absolute inset-x-0 bottom-0 h-full">
-            </div>
+            <div class="bg-linear-to-t from-gray-950 via-gray-950/80 to-white/10 absolute inset-x-0 bottom-0 h-full"></div>
         </div>
 
         <div class="absolute top-0 right-0 -mt-20 -mr-20 w-64 h-64 bg-lime-400/10 rounded-full blur-3xl"></div>
@@ -22,14 +21,28 @@
             <nav class="flex mt-8 text-sm md:text-xl font-medium" aria-label="Breadcrumb">
                 <a href="/" class="text-lime-400 hover:text-lime-500">Beranda</a>
                 <span class="mx-2 text-white">/</span>
-                <span class="text-white">Destinasi</span>
+                <a href="/pilih-kota" class="text-lime-400 hover:text-lime-500">Pilih Kota</a>
+                @if(request('lokasi'))
+                    <span class="mx-2 text-white">/</span>
+                    <span class="text-white">{{ request('lokasi') }}</span>
+                @endif
             </nav>
-            <h1 class="text-4xl md:text-6xl font-black text-white leading-tight">
-                Temukan <span class="text-lime-400">Petualangan</span><br>Selanjutnya di Sini
+            
+            {{-- JUDUL DINAMIS --}}
+            <h1 class="text-4xl md:text-6xl font-black text-white leading-tight mt-2">
+                @if(request('lokasi'))
+                    Paket Wisata di <span class="text-lime-400">{{ request('lokasi') }}</span>
+                @else
+                    Temukan <span class="text-lime-400">Petualangan</span><br>Selanjutnya di Sini
+                @endif
             </h1>
+            
             <p class="mt-4 text-gray-300 text-lg max-w-2xl mx-auto md:mx-0 hidden md:block">
-                Jelajahi keajaiban tersembunyi dan destinasi ikonik. Pilih paket perjalanan yang
-                dirancang khusus untuk kenyamanan dan petualangan Anda.
+                @if(request('lokasi'))
+                    Jelajahi keajaiban tersembunyi dan destinasi ikonik yang ada di {{ request('lokasi') }}.
+                @else
+                    Jelajahi keajaiban tersembunyi dan destinasi ikonik. Pilih paket perjalanan yang dirancang khusus untuk Anda.
+                @endif
             </p>
         </div>
     </section>
@@ -37,45 +50,43 @@
     {{-- search bar untuk cari paket spesifik --}}
     <div class="max-w-3xl mx-auto -mt-8">
         <form action="/destinasi" method="GET" class="relative">
+            
+            {{-- PENTING: Bawa terus parameter lokasi agar saat user nge-search, kotanya tidak keriset --}}
+            @if(request('lokasi'))
+                <input type="hidden" name="lokasi" value="{{ request('lokasi') }}">
+            @endif
+
             {{-- search input group --}}
             <div class="relative mx-2">
                 <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
                     <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                     </svg>
                 </div>
                 <input type="search" name="cari" value="{{ request('cari') }}"
                     class="block w-full p-4 pl-12 text-gray-900 shadow-xl rounded-full bg-white focus:ring-lime-400 focus:border-lime-400 transition-all outline-none"
-                    placeholder="Cari destinasi">
+                    placeholder="Cari destinasi @if(request('lokasi')) di {{ request('lokasi') }} @endif">
                 <button type="submit"
                     class="cursor-pointer text-gray-900 absolute right-2.5 bottom-2.5 bg-lime-400 hover:bg-lime-500 font-bold rounded-full text-sm px-6 py-2 transition-colors">
                     Cari
                 </button>
             </div>
             
-            
-            
             {{-- Category Filters (Pill Style) --}}
             <div class="mt-6 px-4 md:px-0">
                 <p class="text-gray-500 text-xs font-bold uppercase tracking-widest mb-3 ml-2">Pilih Kategori:</p>
                 <div class="flex flex-wrap gap-3 items-center">
-                    {{-- Tombol Semua --}}
                     <label class="cursor-pointer">
-                        <input type="radio" name="kategori" value="" class="hidden peer"
-                            onchange="this.form.submit()" {{ request('kategori') == '' ? 'checked' : '' }}>
-                        <span
-                            class="px-5 py-2.5 rounded-full border border-gray-200 bg-white text-gray-600 text-sm font-semibold transition-all peer-checked:bg-lime-400 peer-checked:text-gray-900 peer-checked:border-lime-400 hover:border-lime-400 shadow-sm block">
+                        <input type="radio" name="kategori" value="" class="hidden peer" onchange="this.form.submit()" {{ request('kategori') == '' ? 'checked' : '' }}>
+                        <span class="px-5 py-2.5 rounded-full border border-gray-200 bg-white text-gray-600 text-sm font-semibold transition-all peer-checked:bg-lime-400 peer-checked:text-gray-900 peer-checked:border-lime-400 hover:border-lime-400 shadow-sm block">
                             Semua
                         </span>
                     </label>
 
                     @foreach (['Open Trip', 'Family Gathering', 'Meeting Planner'] as $kat)
                         <label class="cursor-pointer">
-                            <input type="radio" name="kategori" value="{{ $kat }}" class="hidden peer"
-                                onchange="this.form.submit()" {{ request('kategori') == $kat ? 'checked' : '' }}>
-                            <span
-                                class="px-5 py-2.5 rounded-full border border-gray-200 bg-white text-gray-600 text-sm font-semibold transition-all peer-checked:bg-lime-400 peer-checked:text-gray-900 peer-checked:border-lime-400 hover:border-lime-400 shadow-sm block">
+                            <input type="radio" name="kategori" value="{{ $kat }}" class="hidden peer" onchange="this.form.submit()" {{ request('kategori') == $kat ? 'checked' : '' }}>
+                            <span class="px-5 py-2.5 rounded-full border border-gray-200 bg-white text-gray-600 text-sm font-semibold transition-all peer-checked:bg-lime-400 peer-checked:text-gray-900 peer-checked:border-lime-400 hover:border-lime-400 shadow-sm block">
                                 {{ $kat }}
                             </span>
                         </label>

@@ -25,7 +25,7 @@ Route::get('/', function () {
 });
 
 /* route destinasi.blade */
-Route::get('/destinasi/domestik', function (Request $request) {
+/* Route::get('/destinasi/domestik', function (Request $request) {
     // 1. Ambil input dari URL (?cari=...&kategori=...)
     $keyword = $request->cari;
     $kategori = $request->kategori;
@@ -76,7 +76,7 @@ Route::get('/destinasi/domestik', function (Request $request) {
         'selectedKategori' => $kategori, // Kirim ini agar UI tahu kategori mana yang aktif
         'notFound' => $notFound
     ]);
-});
+}); */
 
 /* route detailPaket.blade */
 Route::get('/paket/{slug}', function ($slug) {
@@ -162,4 +162,71 @@ Route::get('/custom-paket', function () {
 /* route pilihTipe.blade */
 Route::get('/tipe-destinasi', function () {
     return view('pilihTipe');
+});
+
+// --- 1. RUTE HALAMAN DESTINASI UTAMA (Menampilkan Paket) ---
+Route::get('/destinasi', function (Request $request) {
+    $keyword = $request->cari;
+    $kategori = $request->kategori;
+    $lokasi = $request->lokasi; // Menangkap kota yang diklik dari halaman pilih-kota
+
+    // JIKA tidak ada pencarian kata kunci DAN tidak ada lokasi yang dipilih
+    // Maka lempar user kembali ke halaman pemilihan tipe agar tidak "nyasar"
+    if (!$keyword && !$lokasi) {
+        return redirect('/tipe-destinasi'); 
+    }
+
+    $semuaData = collect(Pakets::allPaket());
+    $notFound = false;
+
+    // 1. Jalankan filter sesuai input user
+    $pakets = $semuaData->filter(function ($paket) use ($keyword, $kategori, $lokasi) {
+        $matchKeyword = $keyword ? (stripos($paket['nama'], $keyword) !== false || stripos($paket['lokasi'], $keyword) !== false) : true;
+        $matchKategori = $kategori ? (isset($paket['kategori']) && is_array($paket['kategori']) && in_array($kategori, $paket['kategori'])) : true;
+        $matchLokasi = $lokasi ? (stripos($paket['lokasi'], $lokasi) !== false) : true;
+
+        return $matchKeyword && $matchKategori && $matchLokasi;
+    });
+
+    // 2. Jika pencarian spesifik kosong
+    if ($pakets->isEmpty()) {
+        $notFound = true;
+        
+        // JIKA user sebelumnya sudah memilih lokasi (misal: Bali)
+        // Maka tampilkan paket lain yang lokasinya masih sama (Bali)
+        if ($lokasi) {
+            $pakets = $semuaData->where('lokasi', $lokasi);
+        } else {
+            // Jika tidak ada lokasi spesifik, baru tampilkan semua
+            $pakets = $semuaData;
+        }
+    }
+
+    return view('destinasi', [
+        'allPakets' => $pakets,
+        'notFound' => $notFound
+    ]);
+});
+
+// --- 2. RUTE HALAMAN PILIH KOTA (Domestik / Mancanegara) ---
+// Parameter {tipe} akan otomatis menangkap kata 'domestik' atau 'mancanegara' dari URL
+Route::get('/destinasi/{tipe}', function ($tipe) {
+    $semuaData = collect(Pakets::allPaket());
+    
+    // Filter berdasarkan tipe
+    $filtered = $semuaData->where('tipe', $tipe);
+
+    // Ambil lokasi unik beserta satu gambar perwakilan (gambar dari paket pertama yang ditemukan)
+    $kotaList = $filtered->groupBy('lokasi')->map(function ($items) {
+        return [
+            'nama' => $items->first()['lokasi'],
+            'gambar' => $items->first()['image'] // Mengambil gambar dari paket pertama di lokasi tersebut
+        ];
+    })->values();
+
+    return view('pilihKotaNegara', [
+        'kotaList' => $kotaList,
+        'tipe' => $tipe,
+        'title' => $tipe === 'domestik' ? 'Destinasi Domestik' : 'Destinasi Mancanegara'
+    ]);
 });
