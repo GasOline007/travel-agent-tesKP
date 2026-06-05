@@ -12,28 +12,28 @@
         {{-- bg image --}}
         <div class="absolute left-0 top-0 w-full h-screen -z-10">
             <img src="{{ asset('img/homepage.avif') }}" alt="Background" class="w-full h-full object-cover">
-            <div class="bg-linear-to-t from-gray-950 via-gray-950/80 to-white/10 absolute inset-x-0 bottom-0 h-full"></div>
+            <div class="bg-linear-to-t from-gray-950 via-gray-950/80 to-gray-950/50 absolute inset-x-0 bottom-0 h-full"></div>
         </div>
 
-        <div class="absolute top-0 right-0 -mt-20 -mr-20 w-64 h-64 bg-lime-400/10 rounded-full blur-3xl"></div>
+        <div class="absolute top-0 right-0 -mt-20 -mr-20 w-64 h-64 bg-travel-primary/10 rounded-full blur-3xl"></div>
 
         <div class="max-w-7xl mx-auto px-4 md:px-6 lg:px-12 relative z-10">
             <nav class="flex mt-8 text-sm md:text-xl font-medium" aria-label="Breadcrumb">
-                <a href="/" class="text-lime-400 hover:text-lime-500">Beranda</a>
+                <a href="/" class="text-white hover:text-travel-tertiary-dark">Beranda</a>
                 <span class="mx-2 text-white">/</span>
-                <a href="/pilih-kota" class="text-lime-400 hover:text-lime-500">Pilih Kota</a>
+                <a href="/pilih-kota" class="text-white hover:text-travel-tertiary-dark">Pilih Kota</a>
                 @if(request('lokasi'))
                     <span class="mx-2 text-white">/</span>
-                    <span class="text-white">{{ request('lokasi') }}</span>
+                    <span class="text-travel-tertiary">{{ request('lokasi') }}</span>
                 @endif
             </nav>
             
             {{-- JUDUL DINAMIS --}}
             <h1 class="text-4xl md:text-6xl font-black text-white leading-tight mt-2">
                 @if(request('lokasi'))
-                    Paket Wisata di <span class="text-lime-400">{{ request('lokasi') }}</span>
+                    Paket Wisata di <span class="text-travel-primary">{{ request('lokasi') }}</span>
                 @else
-                    Temukan <span class="text-lime-400">Petualangan</span><br>Selanjutnya di Sini
+                    Temukan <span class="text-travel-primary">Petualangan</span><br>Selanjutnya di Sini
                 @endif
             </h1>
             
@@ -64,10 +64,10 @@
                     </svg>
                 </div>
                 <input type="search" name="cari" value="{{ request('cari') }}"
-                    class="block w-full p-4 pl-12 text-gray-900 shadow-xl rounded-full bg-white focus:ring-lime-400 focus:border-lime-400 transition-all outline-none"
+                    class="block w-full p-4 pl-12 text-gray-900 shadow-xl rounded-full bg-white focus:ring-primarytext-travel-primary focus:border-primarytext-travel-primary transition-all outline-none"
                     placeholder="Cari destinasi @if(request('lokasi')) di {{ request('lokasi') }} @endif">
                 <button type="submit"
-                    class="cursor-pointer text-gray-900 absolute right-2.5 bottom-2.5 bg-lime-400 hover:bg-lime-500 font-bold rounded-full text-sm px-6 py-2 transition-colors">
+                    class="cursor-pointer text-gray-900 absolute right-2.5 bottom-2.5 bg-primarytext-travel-primary hover:bg-travel-primary-dark font-bold rounded-full text-sm px-6 py-2 transition-colors">
                     Cari
                 </button>
             </div>
@@ -78,7 +78,7 @@
                 <div class="flex flex-wrap gap-3 items-center">
                     <label class="cursor-pointer">
                         <input type="radio" name="kategori" value="" class="hidden peer" onchange="this.form.submit()" {{ request('kategori') == '' ? 'checked' : '' }}>
-                        <span class="px-5 py-2.5 rounded-full border border-gray-200 bg-white text-gray-600 text-sm font-semibold transition-all peer-checked:bg-lime-400 peer-checked:text-gray-900 peer-checked:border-lime-400 hover:border-lime-400 shadow-sm block">
+                        <span class="px-5 py-2.5 rounded-full border border-gray-200 bg-white text-gray-600 text-sm font-semibold transition-all peer-checked:bg-travel-primary peer-checked:text-white peer-checked:border-PRIbg-travel-primary hover:border-PRIbg-travel-primary shadow-sm block">
                             Semua
                         </span>
                     </label>
@@ -86,7 +86,7 @@
                     @foreach (['Open Trip', 'Family Gathering', 'Meeting Planner'] as $kat)
                         <label class="cursor-pointer">
                             <input type="radio" name="kategori" value="{{ $kat }}" class="hidden peer" onchange="this.form.submit()" {{ request('kategori') == $kat ? 'checked' : '' }}>
-                            <span class="px-5 py-2.5 rounded-full border border-gray-200 bg-white text-gray-600 text-sm font-semibold transition-all peer-checked:bg-lime-400 peer-checked:text-gray-900 peer-checked:border-lime-400 hover:border-lime-400 shadow-sm block">
+                            <span class="px-5 py-2.5 rounded-full border border-gray-200 bg-white text-gray-600 text-sm font-semibold transition-all peer-checked:bg-travel-primary peer-checked:text-white peer-checked:border-PRIbg-travel-primary hover:border-PRIbg-travel-primary shadow-sm block">
                                 {{ $kat }}
                             </span>
                         </label>
@@ -110,8 +110,8 @@
                     </div>
                     <div>
                         <h4 class="text-amber-900 font-bold text-lg">Pencarian Tidak Ditemukan</h4>
-                        <p class="text-amber-800 opacity-80">Maaf, paket "<span
-                                class="font-bold underline">{{ request('cari') }}</span>" tidak tersedia. Menampilkan
+                        <p class="text-amber-800 opacity-80">Maaf, paket <span
+                                class="font-bold underline">{{ request('cari') ? request('cari') . ' ' : ''}}</span>tidak tersedia. Menampilkan
                             semua paket menarik lainnya.</p>
                     </div>
                 </div>
