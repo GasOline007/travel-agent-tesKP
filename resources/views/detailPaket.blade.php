@@ -9,19 +9,19 @@
 
     {{-- hero section --}}
     <div class="w-full h-[40vh] md:h-[50vh] relative">
-        <img src="{{ $paket['image'] }}" alt="{{ $paket['nama'] }}" class="w-full h-full object-cover">
+        <img src="{{ Storage::url($package->image) }}" alt="{{ $package->name }}" class="w-full h-full object-cover">
         <div class="absolute inset-0 bg-linear-to-t from-gray-950 via-gray-950/40 to-transparent"></div>
 
         <div class="absolute bottom-0 left-0 w-full p-6 md:p-12 max-w-7xl mx-auto">
-            <div class="flex items-center text-lime-400 mb-2 font-medium">
+            <div class="flex items-center text-travel-tertiary mb-2 font-medium">
                 <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
                 </svg>
-                {{ $paket['lokasi'] }}
+                {{ $package->location }}
             </div>
             <h1 class="text-3xl md:text-5xl lg:text-6xl font-black text-white leading-tight mb-4">
-                {{ $paket['nama'] }}
+                {{ $package->name }}
             </h1>
         </div>
     </div>
@@ -32,30 +32,30 @@
             <div class="lg:w-2/3 space-y-12">
 
                 <section>
-                    @if (isset($paket['kategori']) && is_array($paket['kategori']))
+                    @if (isset($package->category) && is_array($package->category))
                         <div class="flex flex-wrap gap-2 mb-4">
-                            @foreach ($paket['kategori'] as $kategori)
+                            @foreach ($package->category as $kategori)
                                 <span
-                                    class="bg-lime-50 border border-lime-200 text-lime-700 text-xs md:text-sm font-extrabold uppercase tracking-widest px-2.5 py-1 rounded-full">
+                                    class="bg-lime-50 border border-travel-secondary-dark text-travel-secondary-dark text-xs md:text-sm font-extrabold uppercase tracking-widest px-2.5 py-1 rounded-full">
                                     {{ $kategori }}
                                 </span>
                             @endforeach
                         </div>
                     @endif
                     <h2 class="text-2xl font-bold text-gray-900 mb-4">Tentang Perjalanan Ini</h2>
-                    <p class="text-gray-600 leading-relaxed text-lg">{{ $paket['deskripsi'] }}</p>
+                    <p class="text-gray-600 leading-relaxed text-lg">{{ $package->description }}</p>
                 </section>
 
                 {{-- rencana perjalanan --}}
                 <section>
                     <h2 class="text-2xl font-bold text-gray-900 mb-6">Rencana Perjalanan</h2>
                     <div class="space-y-6">
-                        @foreach ($paket['itinerary'] as $jadwal)
+                        @foreach ($package->itinerary as $jadwal)
                             <div class="group bg-white p-6 border border-gray-200 shadow-sm relative overflow-hidden">
                                 <div
                                     class="absolute left-0 top-0 w-1.5 bg-lime-400 h-0 transition-all duration-300 ease-out group-hover:h-full">
                                 </div>
-                                <h3 class="font-bold text-lg text-gray-900 mb-4 ml-2">{{ $jadwal['hari'] }}</h3>
+                                <h3 class="font-bold text-lg text-gray-900 mb-4 ml-2">Hari ke {{ $jadwal['day'] }}</h3>
                                 <ul class="space-y-3 ml-2">
                                     @foreach ($jadwal['kegiatan'] as $kegiatan)
                                         <li class="flex items-start text-gray-600">
@@ -81,7 +81,7 @@
                             Termasuk
                         </h3>
                         <ul class="space-y-2">
-                            @foreach ($paket['termasuk'] as $item)
+                            @foreach ($package->inclusions as $item)
                                 <li class="text-gray-600 text-sm flex items-start">
                                     <span class="text-green-500 mr-2">✓</span> {{ $item }}
                                 </li>
@@ -98,7 +98,7 @@
                             Tidak Termasuk
                         </h3>
                         <ul class="space-y-2">
-                            @foreach ($paket['tidak_termasuk'] as $item)
+                            @foreach ($package->exclusions as $item)
                                 <li class="text-gray-600 text-sm flex items-start">
                                     <span class="text-red-500 mr-2">✕</span> {{ $item }}
                                 </li>
@@ -110,14 +110,15 @@
                 {{-- gallery preview --}}
                 <section>
                     <h2 class="text-2xl font-bold text-gray-900 mb-6">Galeri Destinasi</h2>
-                    @if (isset($paket['gallery']) && count($paket['gallery']) > 0) {{-- Mengecek apakah key atau variabel gallery itu ada di dalam array $paket && Mengecek jumlah isi di dalam array gallery > 0 --}}
+                    @if (isset($package->gallery) && count($package->gallery) > 0) {{-- Mengecek apakah key atau variabel gallery itu ada di dalam array $paket && Mengecek jumlah isi di dalam array gallery > 0 --}}
                         <div class="relative w-full rounded-3xl overflow-hidden shadow-lg group">
 
                             <div id="carousel-track"
                                 class="flex transition-transform duration-500 ease-in-out h-64 md:h-96">
-                                @foreach ($paket['gallery'] as $img)
+                                @foreach ($package->gallery as $img)
                                     <div class="min-w-full h-full">
-                                        <img src="{{ $img }}" alt="Preview" class="w-full h-full object-cover">
+                                        <img src="{{ Storage::url($img) }}" alt="Preview"
+                                            class="w-full h-full object-cover">
                                     </div>
                                 @endforeach
                             </div>
@@ -139,7 +140,7 @@
                             </button>
 
                             <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
-                                @foreach ($paket['gallery'] as $index => $img)
+                                @foreach ($package->gallery as $index => $img)
                                     <button
                                         class="indicator-btn cursor-pointer h-2.5 rounded-full transition-all duration-300 {{ $index == 0 ? 'w-6 bg-lime-400' : 'w-2.5 bg-white/50' }}"
                                         data-index="{{ $index }}"></button>
@@ -162,11 +163,113 @@
                         Catatan Penting
                     </h3>
                     <ul class="list-disc list-inside space-y-1 text-sm text-amber-800">
-                        @foreach ($paket['catatan'] as $note)
+                        @foreach ($package->notes as $note)
                             <li>{{ $note }}</li>
                         @endforeach
                     </ul>
                 </section>
+
+                {{-- Tampilan Tabel Excel --}}
+                @if ($package->details->isNotEmpty())
+                    @php
+                        $grouped = $package->details->groupBy('participant_count');
+
+                        // ✅ Pakai urutan dari kolom urutan_trip, bukan dari pluck
+                        $tipeTrips = collect($package->trip_sequence ?? [])
+                            ->filter(fn($t) => $package->details->pluck('trip_type')->contains($t))
+                            ->values();
+
+                        // Fallback jika urutan_trip kosong
+                        if ($tipeTrips->isEmpty()) {
+                            $tipeTrips = $package->details->pluck('trip_type')->unique()->values();
+                        }
+
+                        $urutanPeserta = ['2 PAX', '3 PAX', '4 PAX', '5-9 PAX', '10 PAX'];
+                        $sortedKeys = collect($urutanPeserta)
+                            ->filter(fn($k) => $grouped->has($k))
+                            ->merge($grouped->keys()->diff($urutanPeserta));
+                    @endphp
+
+                    <div class="mb-10 bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden">
+
+                        {{-- Header Card --}}
+                        <div class="px-6 py-4 bg-gray-50 border-b border-gray-200 flex items-center gap-3">
+                            <span class="text-xl">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="lucide lucide-tickets-icon lucide-tickets">
+                                    <path d="m3.173 8.18 11-5a2 2 0 0 1 2.647.993L18.56 8" />
+                                    <path d="M6 10V8" />
+                                    <path d="M6 14v1" />
+                                    <path d="M6 19v2" />
+                                    <rect x="2" y="8" width="20" height="13" rx="2" />
+                                </svg>
+                            </span>
+                            <h3 class="font-bold text-gray-800 text-lg">Harga per Jumlah Peserta</h3>
+                        </div>
+
+                        {{-- Table Wrapper (Responsive X) --}}
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left text-gray-600">
+                                <thead class="text-xs text-gray-500 uppercase bg-gray-50/50 border-b border-gray-200">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-4 font-bold whitespace-nowrap">
+                                            Jumlah Peserta
+                                        </th>
+                                        @foreach ($tipeTrips as $tipe)
+                                            <th scope="col" class="px-6 py-4 font-bold text-center whitespace-nowrap">
+                                                {{ $labelMap[$tipe] ?? ucwords(str_replace('_', ' ', $tipe)) }}
+                                            </th>
+                                        @endforeach
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-100">
+                                    @foreach ($sortedKeys as $peserta)
+                                        @php $baris = $grouped[$peserta]->keyBy('trip_type'); @endphp
+
+                                        <tr class="hover:bg-gray-50/80 transition-colors duration-200">
+                                            {{-- Kolom Jumlah Peserta --}}
+                                            <td class="px-6 py-4 font-semibold text-gray-900 whitespace-nowrap">
+                                                {{ $peserta }}
+                                            </td>
+
+                                            {{-- Kolom Harga --}}
+                                            @foreach ($tipeTrips as $tipe)
+                                                <td class="px-6 py-4">
+                                                    @if (isset($baris[$tipe]))
+                                                        {{-- Trik Sejajar: Gunakan flex dan lebar tetap (w-28) --}}
+                                                        <div class="flex justify-between items-center w-28 mx-auto">
+                                                            <span
+                                                                class="text-gray-400 text-xs font-normal mt-0.5">Rp</span>
+                                                            <span
+                                                                class="font-serif text-base text-gray-900 font-medium tracking-wide">
+                                                                {{ number_format($baris[$tipe]->price, 0, ',', '.') }}
+                                                            </span>
+                                                        </div>
+                                                    @else
+                                                        <div class="text-center text-gray-300 italic">—</div>
+                                                    @endif
+                                                </td>
+                                            @endforeach
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+
+                        {{-- Footer Card --}}
+                        <div class="px-6 py-3 bg-gray-50/50 border-t border-gray-100">
+                            <p class="text-xs text-gray-500 flex items-center gap-1.5">
+                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                Hubungi kami untuk informasi lebih lanjut.
+                            </p>
+                        </div>
+                    </div>
+                @endif
 
             </div>
 
@@ -175,40 +278,42 @@
                     <div class="mb-6">
                         <span class="text-gray-500 text-sm font-medium">Harga Mulai Dari</span>
                         <div class="text-3xl font-black text-gray-900 mt-1">
-                            Rp {{ number_format($paket['harga'], 0, ',', '.') }}
+                            Rp {{ number_format($package->price, 0, ',', '.') }}
                         </div>
                     </div>
 
                     <div class="space-y-4 mb-8">
                         <div class="flex items-center text-gray-600">
-                            <svg class="w-5 h-5 mr-3 text-lime-500" fill="none" stroke="currentColor"
+                            <svg class="w-5 h-5 mr-3 text-travel-secondary" fill="none" stroke="currentColor"
                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
-                            <span class="font-medium">Durasi:</span> <span class="ml-auto">{{ $paket['durasi'] }}</span>
+                            <span class="font-medium">Durasi:</span> <span
+                                class="ml-auto">{{ $package->duration }}</span>
                         </div>
                         <div class="flex items-center text-gray-600">
-                            <svg class="w-5 h-5 mr-3 text-lime-500" fill="none" stroke="currentColor"
+                            <svg class="w-5 h-5 mr-3 text-travel-secondary" fill="none" stroke="currentColor"
                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
                                 </path>
                             </svg>
-                            <span class="font-medium">Lokasi:</span> <span class="ml-auto">{{ $paket['lokasi'] }}</span>
+                            <span class="font-medium">Lokasi:</span> <span
+                                class="ml-auto">{{ $package->location }}</span>
                         </div>
                     </div>
 
                     @php
                         $pesanWA =
                             "Halo Nravel,\nSaya tertarik dengan paket *" .
-                            $paket['nama'] .
+                            $package->name .
                             "*.\nMohon info ketersediaan dan pemesanannya.";
-                        $urlWA = 'https://wa.me/6285155447502?text=' . urlencode($pesanWA);
+                        $urlWA = 'https://wa.me/' . $no_wa . '?text=' . urlencode($pesanWA);
                     @endphp
 
                     <a href="{{ $urlWA }}" target="_blank"
-                        class="block w-full text-center bg-gray-900 hover:bg-black text-lime-400 font-bold text-lg py-4 rounded-full transition-colors shadow-lg">
+                        class="block w-full text-center bg-gray-900 hover:bg-black text-travel-tertiary font-bold text-lg py-4 rounded-full transition-colors shadow-lg">
                         Pesan via WhatsApp
                     </a>
 

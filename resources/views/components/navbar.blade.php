@@ -9,20 +9,20 @@
     <!-- Navigasi Desktop -->
     <div class="hidden lg:block">
         <nav class="flex">
-            <x-nav-link href="/" :active="request()->is('/')">Beranda</x-nav-link>
+            <x-nav-link href="/" :active="request()->routeIs('home')">Beranda</x-nav-link>
             <!-- Dropdown Destinasi Desktop -->
-            <x-nav-dropdown title="Destinasi" :active="request()->is('destinasi*')">
-                <a href="/destinasi/domestik"
-                    class="block px-6 py-4 text-lg text-gray-500 hover:bg-travel-primary/20 hover:text-gray-900 font-medium transition-colors">
+            <x-nav-dropdown title="Destinasi" :active="request()->routeIs('packages.by-tipe')">
+                <a href="{{ route('packages.by-tipe', ['tipe' => 'domestik']) }}"
+                    class="block px-6 py-4 text-lg {{ request()->is('destinasi/domestik') ? 'text-lime-500 font-bold bg-travel-primary/10' : 'text-gray-500' }} hover:bg-travel-primary/20 hover:text-gray-900 font-medium transition-colors">
                     Domestik
                 </a>
-                <a href="/destinasi/mancanegara"
-                    class="block px-6 py-4 text-lg text-gray-500 hover:bg-travel-primary/20 hover:text-gray-900 font-medium transition-colors">
+                <a href="{{ route('packages.by-tipe', ['tipe' => 'mancanegara']) }}"
+                    class="block px-6 py-4 text-lg {{ request()->is('destinasi/mancanegara') ? 'text-lime-500 font-bold bg-travel-primary/10' : 'text-gray-500' }} hover:bg-travel-primary/20 hover:text-gray-900 font-medium transition-colors">
                     Mancanegara
                 </a>
             </x-nav-dropdown>
-            <x-nav-link href="/galeri" :active="request()->is('galeri')">Galeri</x-nav-link>
-            <x-nav-link href="/about" :active="request()->is('about')">Tentang</x-nav-link>
+            <x-nav-link href="{{ route('gallery') }}" :active="request()->routeIs('gallery')">Galeri</x-nav-link>
+            <x-nav-link href="/tentang-arfaka" :active="request()->is('tentang-arfaka')">Tentang</x-nav-link>
         </nav>
     </div>
 
@@ -80,7 +80,7 @@
     <nav class="flex flex-col px-6 py-2 space-y-5 grow">
 
         <!-- Link Beranda Biasa -->
-        <a href="/"
+        <a href="{{ route('home') }}"
             class="text-lg font-medium transition-colors {{ request()->is('/') ? 'text-travel-primary font-bold' : 'text-gray-700 hover:text-travel-primary' }}">
             Beranda
         </a>
@@ -101,11 +101,11 @@
             <!-- Sub-menu yang muncul di bawahnya -->
             <div x-show="open" x-transition class="flex flex-col pl-4 mt-3 space-y-3 border-l-2 border-travel-primary"
                 style="display: none;">
-                <a href="/destinasi/domestik"
+                <a href="{{ route('packages.by-tipe', 'domestik') }}"
                     class="text-base text-gray-600 hover:text-travel-primary font-medium transition-colors cursor-pointer">
                     Domestik
                 </a>
-                <a href="/destinasi/mancanegara"
+                <a href="{{ route('packages.by-tipe', 'mancanegara') }}"
                     class="text-base text-gray-600 hover:text-travel-primary font-medium transition-colors cursor-pointer">
                     Manca Negara
                 </a>

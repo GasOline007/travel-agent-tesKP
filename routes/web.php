@@ -1,13 +1,16 @@
 <?php
 
+use App\Http\Controllers\GalleryController;
 use App\Models\Pakets; // Pastikan Model di-import di atas (ini class data dummy JIKA SUDAH ADA DATABASE HAPUS!)
 use App\Models\HeroSlider; // Pastikan Model di-import di atas (ini class data dummy JIKA SUDAH ADA DATABASE HAPUS!)
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TravelPackageController;
+use App\Http\Controllers\HomeController;
 
 /* route home.blade */
 
-Route::get('/', function () {
+/* Route::get('/', function () {
     $heroSlider = collect(HeroSlider::allHeroSlider());
     
     // Ambil semua data dari Model Pakets, ubah jadi Collection
@@ -22,7 +25,7 @@ Route::get('/', function () {
         'heroSlider' => $heroSlider,
         'hookPakets' => $hookPakets
     ]);
-});
+}); */
 
 /* route destinasi.blade */
 /* Route::get('/destinasi/domestik', function (Request $request) {
@@ -79,7 +82,7 @@ Route::get('/', function () {
 }); */
 
 /* route detailPaket.blade */
-Route::get('/paket/{slug}', function ($slug) {
+/* Route::get('/paket/{slug}', function ($slug) {
     $paket = Pakets::findPaket($slug);
 
     // 3. Jika paket tidak ditemukan, tampilkan halaman 404 (Not Found)
@@ -91,10 +94,10 @@ Route::get('/paket/{slug}', function ($slug) {
     return view('detailPaket', [
         'paket' => $paket,
     ]);
-});
+}); */
 
 /* route travelTips */
-Route::get('/galeri', function () {
+/* Route::get('/galeri', function () {
     $galeri = [
         [
             'image' => 'https://images.unsplash.com/photo-1566371486490-560ded23b5e4?q=80&w=1000',
@@ -137,35 +140,35 @@ Route::get('/galeri', function () {
     return view('galeri', [
         'galeri' => collect($galeri)
     ]);
-});
+}); */
 
 /* route about.blade */
-Route::get('/about', function () {
+/* Route::get('/about', function () {
     return view('about');
-});
+}); */
 
 /* route login.blade */
-Route::get('/login', function () {
+/* Route::get('/login', function () {
     return view('login');
-});
+}); */
 
 /* route regis.blade */
-Route::get('/register', function () {
+/* Route::get('/register', function () {
     return view('register');
-});
+}); */
 
 /* route custopPaket.blade */
-Route::get('/custom-paket', function () {
+/* Route::get('/custom-paket', function () {
     return view('customPaket');
-});
+}); */
 
 /* route pilihTipe.blade */
-Route::get('/tipe-destinasi', function () {
+/* Route::get('/tipe-destinasi', function () {
     return view('pilihTipe');
-});
+}); */
 
 // --- 1. RUTE HALAMAN DESTINASI UTAMA (Menampilkan Paket) ---
-Route::get('/destinasi', function (Request $request) {
+/* Route::get('/destinasi', function (Request $request) {
     $keyword = $request->cari;
     $kategori = $request->kategori;
     $lokasi = $request->lokasi; // Menangkap kota yang diklik dari halaman pilih-kota
@@ -206,11 +209,11 @@ Route::get('/destinasi', function (Request $request) {
         'allPakets' => $pakets,
         'notFound' => $notFound
     ]);
-});
+}); */
 
 // --- 2. RUTE HALAMAN PILIH KOTA (Domestik / Mancanegara) ---
 // Parameter {tipe} akan otomatis menangkap kata 'domestik' atau 'mancanegara' dari URL
-Route::get('/destinasi/{tipe}', function ($tipe) {
+/* Route::get('/destinasi/{tipe}', function ($tipe) {
     $semuaData = collect(Pakets::allPaket());
     
     // Filter berdasarkan tipe
@@ -229,4 +232,32 @@ Route::get('/destinasi/{tipe}', function ($tipe) {
         'tipe' => $tipe,
         'title' => $tipe === 'domestik' ? 'Destinasi Domestik' : 'Destinasi Mancanegara'
     ]);
-});
+}); */
+
+
+
+// route home
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// Halaman detail paket, detail sengaja taruh paling atas agar tidak  Tumpang Tindih Urutan Rute (Route Shadowing)
+Route::get('/paket-wisata/detail/{slug}', [TravelPackageController::class, 'show'])
+    ->name('packages.detailPaket');
+
+// Halaman utama (pilih domestik/mancanegara)
+Route::get('/paket-wisata', [HomeController::class, 'showLocations'])
+    ->name('packages.tipe');
+
+// Halaman pilih lokasi
+Route::get('/paket-wisata/{tipe}', [TravelPackageController::class, 'byTipe'])
+    ->name('packages.by-tipe')
+    ->where('tipe', 'domestik|mancanegara'); // batasi hanya 2 nilai ini
+
+// Halaman listing per lokasi
+Route::get('/paket-wisata/{tipe}/{lokasi}', [TravelPackageController::class, 'byLokasi'])
+    ->name('packages.lokasiPaket');
+
+Route::view('/custom-paket', 'customPaket');
+Route::view('/tentang-arfaka', 'about');
+
+// Rute Halaman Galeri
+Route::get('/galeri', [GalleryController::class, 'galeri'])->name('gallery');

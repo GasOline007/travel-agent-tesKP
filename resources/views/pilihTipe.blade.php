@@ -23,11 +23,11 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
 
                 {{-- KARTU 1: DOMESTIK --}}
-                <a href="/destinasi/domestik"
+                <a href="{{ route('packages.by-tipe', 'domestik') }}"
                     class="group relative h-[450px] md:h-[500px] rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500">
                     
                     {{-- Background Image --}}
-                    <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?q=80&w=1000" alt="Domestik"
+                    <img src="{{ asset('img/domestik.svg') }}" alt="Domestik"
                         class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 ease-in-out group-hover:scale-105">
 
                     {{-- Elegant Gradient Overlay --}}
@@ -44,6 +44,9 @@
                         </svg>
 
                         <h2 class="text-3xl md:text-4xl font-bold text-white mb-3">Domestik</h2>
+                        <p class="text-gray-300 text-base md:text-lg mb-2 max-w-sm line-clamp-2">
+                            {{ $domestik }} Paket Tersedia
+                        </p>
                         <p class="text-gray-300 text-base md:text-lg mb-8 max-w-sm line-clamp-2">
                             Eksplorasi keindahan alam, budaya, dan kuliner memukau di Indonesia.
                         </p>
@@ -59,11 +62,11 @@
                 </a>
 
                 {{-- KARTU 2: MANCANEGARA --}}
-                <a href="/destinasi/mancanegara"
+                <a href="{{ route('packages.by-tipe', 'mancanegara') }}"
                     class="group relative h-[450px] md:h-[500px] rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500">
                     
                     {{-- Background Image --}}
-                    <img src="https://images.unsplash.com/photo-1499856871958-5b9627545d1a?q=80&w=1000" alt="Mancanegara"
+                    <img src="{{ asset('img/mancanegara.svg') }}" alt="Mancanegara"
                         class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 ease-in-out group-hover:scale-105">
 
                     {{-- Elegant Gradient Overlay --}}
@@ -78,6 +81,9 @@
                         </svg>
 
                         <h2 class="text-3xl md:text-4xl font-bold text-white mb-3">Mancanegara</h2>
+                        <p class="text-gray-300 text-base md:text-lg mb-2 max-w-sm line-clamp-2">
+                            {{ $mancanegara }} Paket Tersedia
+                        </p>
                         <p class="text-gray-300 text-base md:text-lg mb-8 max-w-sm line-clamp-2">
                             Wujudkan impian keliling dunia dan ciptakan kenangan di berbagai negara.
                         </p>

@@ -33,6 +33,84 @@
     </div>
 </section>
 
+
+{{-- Section Tim / Member Arfaka --}}
+    <section class="bg-gray-950 text-white py-26 relative">
+        <div class="max-w-7xl mx-auto px-4 md:px-6 lg:px-12">
+
+            {{-- Header Section --}}
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-travel-primary font-bold tracking-widest text-lg uppercase mb-2 block">
+                    Tim Kami
+                </span>
+                <h2 class="text-3xl md:text-5xl font-serif font-extrabold tracking-tight mb-6">
+                    Orang Hebat di Balik <br><span class="text-travel-tertiary">Arfaka Tour.</span>
+                </h2>
+                <p class="text-gray-400 text-lg">
+                    Perjalanan tak terlupakan Anda dirancang dan dikawal langsung oleh para profesional kami yang
+                    berdedikasi tinggi.
+                </p>
+            </div>
+
+            {{-- Grid Tim --}}
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+
+                {{-- Data Dummy Sementara (Siap diubah pakai database/Filament nanti) --}}
+                @php
+                    $teams = [
+                        [
+                            'nama' => 'Budi Santoso',
+                            'posisi' => 'Founder & CEO',
+                            'foto' => 'https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=500',
+                        ],
+                        [
+                            'nama' => 'Siti Aminah',
+                            'posisi' => 'Operational Manager',
+                            'foto' => 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=500',
+                        ],
+                        [
+                            'nama' => 'Reza Pahlevi',
+                            'posisi' => 'Head Tour Guide',
+                            'foto' => 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=500',
+                        ],
+                        [
+                            'nama' => 'Ayu Lestari',
+                            'posisi' => 'Customer Relations',
+                            'foto' => 'https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=500',
+                        ],
+                    ];
+                @endphp
+
+                @foreach ($teams as $member)
+                    <div
+                        class="group relative overflow-hidden rounded-2xl bg-gray-900 border border-gray-800 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-travel-primary/10">
+
+                        {{-- Foto Profile (Aspect Ratio 4:5 agar tegak estetik) --}}
+                        <div class="aspect-[4/5] w-full overflow-hidden bg-gray-800">
+                            <img src="{{ $member['foto'] }}" alt="{{ $member['nama'] }}"
+                                class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0">
+                        </div>
+
+                        {{-- Info Nama & Jabatan --}}
+                        <div class="p-6 text-center relative z-10 bg-gray-900">
+                            <h4 class="text-xl font-bold text-white mb-1">{{ $member['nama'] }}</h4>
+                            <p class="text-xs font-bold text-travel-primary uppercase tracking-widest">
+                                {{ $member['posisi'] }}</p>
+                        </div>
+
+                        {{-- Aksen Garis Atas Muncul Saat Hover --}}
+                        <div
+                            class="absolute top-0 left-0 w-full h-1 bg-travel-tertiary transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 z-20">
+                        </div>
+                    </div>
+                @endforeach
+
+            </div>
+
+        </div>
+    </section>
+
+
 {{-- Main Content --}}
 <main class="max-w-7xl mx-auto px-4 md:px-6 lg:px-12 -mt-10 md:-mt-20 relative z-10 mb-24">
 

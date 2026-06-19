@@ -1,6 +1,6 @@
 @extends('layouts')
 
-@section('title', $title . ' - Arfaka Tour and Travel')
+@section('title', $tipe . ' - Arfaka Tour and Travel')
 
 @section('content')
     <div class="min-h-screen bg-gray-50 pt-32 pb-20">
@@ -11,7 +11,7 @@
             {{-- Label Kategori dengan warna kustom --}}
             <span
                 class="{{ $tipe === 'domestik' ? 'text-travel-primary' : 'text-travel-secondary' }} font-extrabold tracking-widest uppercase text-sm mb-3 block">
-                {{ $title }}
+                {{ $tipe }}
             </span>
 
             {{-- Judul Utama: Otomatis berubah 'Kota' atau 'Negara' --}}
@@ -33,7 +33,7 @@
         {{-- 2. GRID LOKASI --}}
         <div class="max-w-7xl mx-auto px-4 md:px-6 lg:px-12">
 
-            @if ($kotaList->isEmpty())
+            @if ($lokasi->isEmpty())
                 {{-- State jika data belum tersedia --}}
                 <div class="text-center py-20 bg-white rounded-[2.5rem] shadow-sm border border-gray-100">
                     <div class="mb-6 inline-flex p-4 bg-gray-50 rounded-full text-gray-400">
@@ -44,20 +44,17 @@
                         </svg>
                     </div>
                     <p class="text-gray-500 text-lg font-medium">Paket untuk rute ini sedang dalam tahap persiapan.</p>
-                    <a href="/pilih-tipe" class="inline-block mt-6 text-travel-primary font-bold hover:underline">
-                        &larr; Kembali Pilih Tipe Perjalanan
-                    </a>
                 </div>
             @else
                 {{-- Tampilan Grid --}}
                 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8">
-                    @foreach ($kotaList as $item)
+                    @foreach ($lokasi as $item)
                         {{-- Navigasi menggunakan $item['nama'] --}}
-                        <a href="/destinasi?lokasi={{ urlencode($item['nama']) }}"
-                            class="group relative h-48 md:h-72 rounded-[2rem] overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 flex items-center justify-center bg-gray-200">
+                        <a href="{{ route('packages.lokasiPaket', ['tipe' => $tipe, 'lokasi' => $item->location]) }}"
+                            class="group relative h-48 md:h-72 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 flex items-center justify-center bg-gray-200">
 
                             {{-- GAMBAR ASLI DARI DATA --}}
-                            <img src="{{ $item['gambar'] }}" alt="{{ $item['nama'] }}"
+                            <img src="{{ Storage::url($item->image) }}" alt="{{ $item->name }}"
                                 class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
 
                             {{-- Overlay Gradien agar teks terbaca jelas --}}
@@ -67,20 +64,20 @@
 
                             {{-- Border Efek saat Hover --}}
                             <div
-                                class="absolute inset-0 border-4 border-transparent {{ $tipe === 'domestik' ? 'group-hover:border-[var(--color-travel-primary)]' : 'group-hover:border-[var(--color-travel-secondary)]' }} transition-all duration-500 rounded-[2rem] z-30">
+                                class="absolute inset-0 border-4 border-transparent {{ $tipe === 'domestik' ? 'group-hover:border-[var(--color-travel-primary)]' : 'group-hover:border-[var(--color-travel-secondary)]' }} transition-all duration-500 rounded-3xl z-30">
                             </div>
 
-                            {{-- Teks Lokasi --}}
-                            <div class="relative z-20 text-center px-4 mt-auto mb-6 md:mb-10">
+                            {{-- Badge Lokasi (Atas Kanan) --}}
+                            <div
+                                class="absolute top-0 right-0 z-20 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-bl-xl rounded-tr-xl shadow-sm opacity-100 group-hover:opacity-0 transition-all duration-300 -translate-y-0 group-hover:-translate-y-2">
                                 <span
-                                    class="block text-[var(--color-travel-tertiary)] text-[10px] font-extrabold uppercase tracking-[0.2em] mb-1 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
-                                    Eksplorasi
+                                    class="block text-travel-primary text-xs md:text-sm font-bold uppercase tracking-[0.15em]">
+                                    {{ $item->location }}
                                 </span>
-                                <h3
-                                    class="text-white text-2xl md:text-3xl font-black tracking-tight uppercase drop-shadow-lg">
-                                    {{ $item['nama'] }}
-                                </h3>
+                            </div>
 
+                            {{-- Konten Utama (Nama & Tombol Detail) --}}
+                            <div class="absolute bottom-6 left-6 z-20 right-6">
                                 <div
                                     class="inline-flex items-center text-white/90 text-xs font-bold opacity-0 group-hover:opacity-100 transition-all duration-500 mt-2">
                                     Lihat Paket {{ $tipe === 'domestik' ? 'Kota' : 'Negara' }}

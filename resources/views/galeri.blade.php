@@ -37,10 +37,10 @@
 
     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
         @foreach ($galeri as $foto)
-            <div data-aos="fade-up" onclick="openLightbox('{{ $foto['image'] }}')" 
+            <div data-aos="fade-up" onclick="openLightbox('{{ Storage::url($foto->image) }}')" 
                 class="relative group overflow-hidden rounded-lg shadow-lg bg-gray-200 w-full aspect-square cursor-pointer">
                 
-                <img src="{{ $foto['image'] }}" alt="{{ $foto['lokasi'] }}"
+                <img src="{{ Storage::url($foto->image) }}" alt="{{ $foto->lokasi }}"
                     class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
 
                 <div
@@ -54,7 +54,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                         </svg>
-                        {{ $foto['lokasi'] }}
+                        {{ $foto->lokasi }}
                     </div>
                 </div>
             </div>

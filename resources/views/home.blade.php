@@ -13,10 +13,10 @@
         <div class="relative w-full mt-20 h-[70vh] overflow-hidden shadow-2xl group">
 
             <div id="carousel-track" class="flex transition-transform duration-700 ease-in-out h-full">
-                @foreach ($heroSlider as $arr)
+                @foreach ($banners as $arr)
                     <div class="relative min-w-full h-full bg-gray-900">
                         {{-- Image Slider --}}
-                        <img src="{{ $arr['image'] }}" alt="Carousel Image" class="w-full h-full object-cover">
+                        <img src="{{ asset('storage/' . $arr['image']) }}" alt="Carousel Image" class="w-full h-full object-cover">
 
                         {{-- Overlay Gradien Hitam (PENTING agar teks terbaca) --}}
                         <div class="absolute inset-0 bg-linear-to-t from-black/80 via-black/30 to-transparent"></div>
@@ -99,6 +99,7 @@
 
 
 
+
     {{-- Apa yang Bisa Kami Bantu? --}}
     <section class="w-full bg-zinc-50 py-24 px-4 md:px-6 lg:px-12 overflow-hidden">
         <div class="max-w-7xl mx-auto">
@@ -107,7 +108,7 @@
             <div class="flex flex-col mb-8">
                 <div>
                     <h2 class="text-4xl md:text-5xl font-serif font-bold text-gray-900 leading-tight mb-4">
-                        Kami Siap Melayani
+                        Company Specialist
                     </h2>
                 </div>
                 <p class="text-gray-600 text-lg">
@@ -165,7 +166,7 @@
                     </div>
 
                     {{-- CTA --}}
-                    <a href="https://wa.me/{{ env('WHATSAPP_NUMBER') }}" target="_blank"
+                    <a href="https://wa.me/{{ $no_wa }}" target="_blank"
                         class="inline-flex items-center gap-2 text-xs font-bold text-gray-400 group-hover:text-travel-primary transition-all duration-300 hover:gap-4 w-fit mt-auto">
                         Konsultasi Gratis
                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -187,8 +188,9 @@
                         </span>
                         <div
                             class="w-10 h-10 rounded-full border border-travel-tertiary group-hover:border-zinc-600 flex items-center justify-center transition-all duration-500">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                stroke="currentColor" class="w-6 h-6 text-travel-tertiary group-hover:text-zinc-600 transition-colors duration-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke-width="1.5" stroke="currentColor"
+                                class="w-6 h-6 text-travel-tertiary group-hover:text-zinc-600 transition-colors duration-500">
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="M9 6.75V15m6-6v8.25m.503 3.498 4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 0 0-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0Z" />
                             </svg>
@@ -220,7 +222,7 @@
                         </ul>
                     </div>
 
-                    <a href="/destinasi/domestik"
+                    <a href="{{ route('packages.tipe') }}"
                         class="inline-flex items-center gap-2 text-xs font-bold text-travel-tertiary group-hover:text-white transition-all duration-300 hover:gap-4 w-fit mt-auto">
                         Lihat Semua Paket
                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -290,8 +292,6 @@
 
 
 
-
-
     {{-- Tentang Kami --}}
     <section class="w-full bg-zinc-50 pb-20 px-4 md:pt-20 md:px-6 lg:px-12">
         <div class="max-w-7xl mx-auto">
@@ -340,87 +340,48 @@
 
                         <div class="flex flex-col gap-10 pl-8">
 
-                            {{-- 2019 --}}
+                            {{-- 2016 --}}
                             <div class="relative">
                                 <div
                                     class="absolute -left-8.5 top-1 w-3 h-3 rounded-full bg-travel-primary border-2 border-white ring-2 ring-travel-primary/20">
                                 </div>
                                 <span
-                                    class="text-xs font-bold text-travel-primary uppercase tracking-widest block mb-1">2019</span>
-                                <h4 class="text-sm font-bold text-gray-900 mb-1">Pendirian PT Arfaka Tour and Travel</h4>
+                                    class="text-xs font-bold text-travel-primary uppercase tracking-widest block mb-1">2010</span>
+                                <h4 class="text-sm font-bold text-gray-900 mb-1">Pendirian Arfaka Tour Organizer</h4>
                                 <p class="text-xs text-gray-400 leading-relaxed">
-                                    PT Arfaka Tour and Travel resmi didirikan dan mendapatkan izin usaha perjalanan wisata.
-                                    Beroperasi perdana dengan fokus layanan wisata lokal di Bali dan sekitarnya.
+                                    Resmi didirikan sebagai penyedia jasa penawaran paket wisata. Pada tahun ini juga, jejak
+                                    digital pertama perusahaan dimulai melalui pembuatan sebuah web blog.
                                 </p>
                             </div>
 
-                            {{-- 2020 --}}
+                            {{-- Perjalanan 1 Dekade --}}
                             <div class="relative">
                                 <div
                                     class="absolute -left-8.5 top-1 w-3 h-3 rounded-full bg-gray-200 border-2 border-white">
                                 </div>
                                 <span
-                                    class="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-1">2020</span>
-                                <h4 class="text-sm font-bold text-gray-900 mb-1">Bertahan di Masa Pandemi</h4>
+                                    class="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-1">Perjalanan
+                                    1 Dekade</span>
+                                <h4 class="text-sm font-bold text-gray-900 mb-1">Kualitas & Kepercayaan Pelanggan</h4>
                                 <p class="text-xs text-gray-400 leading-relaxed">
-                                    Di tengah guncangan pandemi global, Arfaka beradaptasi dengan menghadirkan paket wisata
-                                    lokal, staycation, dan perjalanan jarak dekat yang aman.
+                                    Berhasil menjaga kualitas layanan yang dibuktikan dengan tingginya pemesanan berulang
+                                    (repeat order) dari basis pelanggan lama yang solid, didukung kuat oleh pemasaran
+                                    konvensional dari mulut ke mulut (word of mouth).
                                 </p>
                             </div>
 
-                            {{-- 2021 --}}
+                            {{-- Era Transformasi --}}
                             <div class="relative">
                                 <div
                                     class="absolute -left-8.5 top-1 w-3 h-3 rounded-full bg-gray-200 border-2 border-white">
                                 </div>
-                                <span
-                                    class="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-1">2021</span>
-                                <h4 class="text-sm font-bold text-gray-900 mb-1">Ekspansi Destinasi Nusantara</h4>
+                                <span class="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-1">Era
+                                    Transformasi</span>
+                                <h4 class="text-sm font-bold text-gray-900 mb-1">Inisiatif Ekspansi Pasar</h4>
                                 <p class="text-xs text-gray-400 leading-relaxed">
-                                    Membuka rute baru ke Lombok, Raja Ampat, Labuan Bajo, dan Kepulauan Seribu — memperluas
-                                    jangkauan layanan ke seluruh penjuru Indonesia.
-                                </p>
-                            </div>
-
-                            {{-- 2022 --}}
-                            <div class="relative">
-                                <div
-                                    class="absolute -left-8.5 top-1 w-3 h-3 rounded-full bg-gray-200 border-2 border-white">
-                                </div>
-                                <span
-                                    class="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-1">2022</span>
-                                <h4 class="text-sm font-bold text-gray-900 mb-1">1.000 Klien Pertama</h4>
-                                <p class="text-xs text-gray-400 leading-relaxed">
-                                    Arfaka mencapai milestone 1.000 klien terlayani — bukti nyata kepercayaan dan komitmen
-                                    kami terhadap kualitas layanan.
-                                </p>
-                            </div>
-
-                            {{-- 2023 --}}
-                            <div class="relative">
-                                <div
-                                    class="absolute -left-8.5 top-1 w-3 h-3 rounded-full bg-gray-200 border-2 border-white">
-                                </div>
-                                <span
-                                    class="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-1">2023</span>
-                                <h4 class="text-sm font-bold text-gray-900 mb-1">Membuka Layanan Mancanegara</h4>
-                                <p class="text-xs text-gray-400 leading-relaxed">
-                                    Resmi meluncurkan paket wisata internasional ke Jepang, Eropa, dan Asia Tenggara dengan
-                                    harga kompetitif dan itinerary terstruktur.
-                                </p>
-                            </div>
-
-                            {{-- 2024 --}}
-                            <div class="relative">
-                                <div
-                                    class="absolute -left-8.5 top-1 w-3 h-3 rounded-full bg-gray-200 border-2 border-white">
-                                </div>
-                                <span
-                                    class="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-1">2024</span>
-                                <h4 class="text-sm font-bold text-gray-900 mb-1">10.000+ Klien Terlayani</h4>
-                                <p class="text-xs text-gray-400 leading-relaxed">
-                                    Meraih milestone lebih dari 10.000 klien yang mempercayakan perjalanan mereka kepada
-                                    kami.
+                                    Menyadari perlunya menjaring segmentasi pasar baru, Direktur menginstruksikan langkah
+                                    strategis fundamental agar perusahaan dapat beradaptasi dan bersaing secara kompetitif
+                                    di luar jaringan yang sudah ada.
                                 </p>
                             </div>
 
@@ -434,11 +395,13 @@
                                         class="text-xs font-bold text-travel-secondary uppercase tracking-widest">Sekarang</span>
                                     <span class="w-1.5 h-1.5 rounded-full bg-travel-secondary animate-ping"></span>
                                 </span>
-                                <h4 class="text-sm font-bold text-gray-900 mb-1">Terus Berkembang untuk Anda</h4>
+                                <h4 class="text-sm font-bold text-gray-900 mb-1">Transformasi Digital & Optimalisasi SEO
+                                </h4>
                                 <p class="text-xs text-gray-400 leading-relaxed">
-                                    Arfaka terus berinovasi menghadirkan layanan perjalanan terbaik — memperluas destinasi,
-                                    meningkatkan kualitas, dan membangun pengalaman wisata yang tak terlupakan bagi setiap
-                                    klien.
+                                    Membangun website resmi (company profile) sebagai brosur digital interaktif dan media
+                                    konversi pelanggan. Website ini diintegrasikan dengan Search Engine Optimization (SEO)
+                                    untuk meningkatkan brand awareness dan menempati posisi strategis di mesin pencari
+                                    Google.
                                 </p>
                             </div>
 
@@ -466,45 +429,39 @@
                     <div class="flex items-center marquee-track" :class="paused ? 'marquee-paused' : ''"
                         @mouseenter="paused = true" @mouseleave="paused = false">
 
-                        @php
-                            $partners = [
-                                ['name' => 'ASITA', 'logo' => asset('img/logoWeb.webp')],
-                                ['name' => 'IATA', 'logo' => asset('img/logoWeb.webp')],
-                                ['name' => 'Kemenparekraf', 'logo' => asset('img/logoWeb.webp')],
-                                ['name' => 'Garuda Indonesia', 'logo' => asset('img/logoWeb.webp')],
-                                ['name' => 'Bank BCA', 'logo' => asset('img/logoWeb.webp')],
-                                ['name' => 'Traveloka', 'logo' => asset('img/logoWeb.webp')],
-                                ['name' => 'Tiket.com', 'logo' => asset('img/logoWeb.webp')],
-                            ];
-                        @endphp
+                        {{-- SET 1: Kita paksa Blade untuk menggandakan datanya 5 KALI --}}
+                        @for ($i = 0; $i < 5; $i++)
+                            @foreach ($partners as $partner)
+                                @if ($partner->logo)
+                                    {{-- Perhatikan: Pakai ->logo, bukan ['logo'] --}}
+                                    <img src="{{ Storage::url($partner->logo) }}" alt="{{ $partner->name }}"
+                                        {{-- alt cukup panggil teks namanya saja --}}
+                                        class="h-28 w-auto object-contain shrink-0 mr-20 opacity-60 hover:opacity-100 transition-all duration-300">
+                                @else
+                                    <span
+                                        class="text-sm font-bold text-gray-400 tracking-widest whitespace-nowrap shrink-0 mr-20">
+                                        {{ $partner->name }}
+                                    </span>
+                                @endif
+                            @endforeach
+                        @endfor
 
-                        {{-- Set 1 --}}
-                        @foreach ($partners as $partner)
-                            @if ($partner['logo'])
-                                <img src="{{ $partner['logo'] }}" alt="{{ $partner['name'] }}"
-                                    class="h-28 w-auto object-contain shrink-0 mr-20 opacity-60 hover:opacity-100 transition-all duration-300">
-                            @else
-                                <span
-                                    class="text-sm font-bold text-gray-400 tracking-widest whitespace-nowrap shrink-0 mr-20">
-                                    {{ $partner['name'] }}
-                                </span>
-                            @endif
-                        @endforeach
-
-                        {{-- Set 2 --}}
-                        @foreach ($partners as $partner)
-                            @if ($partner['logo'])
-                                <img src="{{ $partner['logo'] }}" alt="{{ $partner['name'] }}"
-                                    class="h-28 w-auto object-contain shrink-0 mr-20 opacity-60 hover:opacity-100 transition-all duration-300"
-                                    aria-hidden="true">
-                            @else
-                                <span
-                                    class="text-sm font-bold text-gray-400 tracking-widest whitespace-nowrap shrink-0 mr-20"
-                                    aria-hidden="true">
-                                    {{ $partner['name'] }}
-                                </span>
-                            @endif
-                        @endforeach
+                        {{-- SET 2: Gandakan 5 KALI juga agar imbang sebagai bayangan di belakang --}}
+                        @for ($i = 0; $i < 5; $i++)
+                            @foreach ($partners as $partner)
+                                @if ($partner->logo)
+                                    <img src="{{ Storage::url($partner->logo) }}" alt="{{ $partner->name }}"
+                                        class="h-28 w-auto object-contain shrink-0 mr-20 opacity-60 hover:opacity-100 transition-all duration-300"
+                                        aria-hidden="true">
+                                @else
+                                    <span
+                                        class="text-sm font-bold text-gray-400 tracking-widest whitespace-nowrap shrink-0 mr-20"
+                                        aria-hidden="true">
+                                        {{ $partner->name }}
+                                    </span>
+                                @endif
+                            @endforeach
+                        @endfor
 
                     </div>
                 </div>
@@ -512,8 +469,6 @@
 
         </div>
     </section>
-
-
 
 
 
@@ -602,6 +557,110 @@
         </div>
     </section>
 
+    {{-- Section Visi & Misi Travel Agent --}}
+    <section class="bg-gray-950 text-white py-26 relative">
+        <div class="max-w-7xl mx-auto px-4 md:px-6 lg:px-12">
+            <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+
+                {{-- Bagian Kiri: Gambar Representatif --}}
+                <div class="w-full lg:w-1/2 relative">
+                    <div
+                        class="hidden lg:block absolute -top-4 -right-4 w-full h-full border-2 border-travel-primary rounded-2xl">
+                    </div>
+                    {{-- Pastikan kamu mengganti 'img/visi-misi-arfaka.jpg' dengan nama file fotomu yang sebenarnya --}}
+                    <img src="{{ asset('img/flyerKepulauanSeribu.svg') }}" alt="Visi Misi Arfaka Tour"
+                        class="relative w-full h-[500px] object-cover rounded-2xl shadow-xl z-10 hidden md:block">
+                </div>
+
+                {{-- Bagian Kanan: Konten Visi & Misi --}}
+                <div class="w-full lg:w-1/2">
+                    <span class="text-travel-primary font-bold tracking-widest text-lg uppercase mb-2 block">Tentang
+                        Kami</span>
+                    <h2 class="text-3xl md:text-5xl font-serif font-extrabold tracking-tight mb-8">
+                        Visi & Misi<br><span class="text-travel-tertiary">Arfaka Tour.</span>
+                    </h2>
+
+                    {{-- Visi Perusahaan --}}
+                    <div class="mb-10 p-6 bg-gray-900 rounded-xl border-l-4 border-travel-primary">
+                        <h3 class="text-xl font-bold mb-3 flex items-center text-white">
+                            <svg class="w-6 h-6 mr-2 text-travel-primary" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+                                </path>
+                            </svg>
+                            Visi Kami
+                        </h3>
+                        <p class="text-gray-400 leading-relaxed italic">
+                            "Menjadi biro perjalanan terdepan di Indonesia yang memberikan pengalaman wisata tak terlupakan,
+                            aman, dan berkualitas tinggi, serta berkontribusi dalam memajukan pariwisata lokal yang
+                            berkelanjutan."
+                        </p>
+                    </div>
+
+                    {{-- Misi Perusahaan --}}
+                    <div class="space-y-6">
+                        <h3 class="text-xl font-bold mb-4 flex items-center text-white">
+                            <svg class="w-6 h-6 mr-2 text-travel-tertiary" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                            Misi Kami
+                        </h3>
+
+                        {{-- Poin Misi 1 --}}
+                        <div class="flex items-start">
+                            <div class="shrink-0 mt-1">
+                                <div
+                                    class="w-6 h-6 rounded-full bg-travel-primary/20 flex items-center justify-center border border-travel-primary">
+                                    <span class="text-travel-primary text-xs font-bold">1</span>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-semibold text-gray-200">Pelayanan Prima</h4>
+                                <p class="mt-1 text-sm text-gray-500">Memberikan pelayanan profesional, ramah, dan solutif
+                                    untuk memenuhi setiap kebutuhan perjalanan pelanggan.</p>
+                            </div>
+                        </div>
+
+                        {{-- Poin Misi 2 --}}
+                        <div class="flex items-start">
+                            <div class="shrink-0 mt-1">
+                                <div
+                                    class="w-6 h-6 rounded-full bg-travel-primary/20 flex items-center justify-center border border-travel-primary">
+                                    <span class="text-travel-primary text-xs font-bold">2</span>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-semibold text-gray-200">Paket Wisata Inovatif</h4>
+                                <p class="mt-1 text-sm text-gray-500">Menyediakan berbagai pilihan destinasi dan paket
+                                    perjalanan yang unik, fleksibel, dan transparan.</p>
+                            </div>
+                        </div>
+
+                        {{-- Poin Misi 3 --}}
+                        <div class="flex items-start">
+                            <div class="shrink-0 mt-1">
+                                <div
+                                    class="w-6 h-6 rounded-full bg-travel-primary/20 flex items-center justify-center border border-travel-primary">
+                                    <span class="text-travel-primary text-xs font-bold">3</span>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-semibold text-gray-200">Mitra Terpercaya</h4>
+                                <p class="mt-1 text-sm text-gray-500">Membangun kolaborasi yang baik dengan mitra penyedia
+                                    jasa (hotel, transportasi) demi kenyamanan perjalanan.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
 
 
 
@@ -690,7 +749,7 @@
                                 3
                             </span>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-900 mb-2">Bayar DP 30%</h3>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">Bayar DP</h3>
                         <p class="text-sm text-gray-500 leading-relaxed max-w-45">
                             Lakukan pembayaran uang muka untuk mengamankan slot perjalanan Anda.
                         </p>
@@ -723,7 +782,7 @@
 
             {{-- CTA bawah --}}
             <div class="mt-14 text-center">
-                <a href="/destinasi"
+                <a href="{{ route('packages.tipe') }}"
                     class="inline-flex items-center gap-2 bg-travel-primary hover:bg-travel-primary-dark text-white font-semibold px-8 py-3.5 rounded-full transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-travel-primary/30">
                     Mulai Pilih Paket
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -749,7 +808,7 @@
                     <p class="text-gray-600 text-lg">Jelajahi keindahan alam Indonesia dengan paket perjalanan eksklusif
                         yang kami rancang khusus untuk Anda.</p>
                 </div>
-                <a href="/destinasi"
+                <a href="{{ route('packages.tipe') }}"
                     class="mt-6 md:mt-0 inline-flex items-center font-semibold text-gray-900 hover:text-gray-600 transition-colors group">
                     Lihat Semua Paket
                     <svg class="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" fill="none"
@@ -763,7 +822,7 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {{-- some popular package --}}
-                @foreach ($hookPakets as $paket)
+                @foreach ($recommendedPackages as $paket)
                     <x-tour-card :paket="$paket" />
                 @endforeach
             </div>
@@ -885,6 +944,7 @@
             </div>
         </div>
     </section>
+
 
 
     @push('scripts')
