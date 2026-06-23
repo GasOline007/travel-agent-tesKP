@@ -22,10 +22,11 @@
 
 .marquee-track {
     width: max-content;
-    animation: marquee-scroll 20s linear infinite;
+    animation: marquee-scroll var(--marquee-duration, 60s) linear infinite;
+    will-change: transform;
 }
 
-.marquee-paused {
+.marquee-wrapper:hover .marquee-track {
     animation-play-state: paused !important;
 }
 

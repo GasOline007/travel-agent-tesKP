@@ -23,7 +23,7 @@ class TravelPackageDetailImport implements
 
     public function headingRow(): int
     {
-        return 3;
+        return 3; 
     }
 
     public function collection(Collection $rows): void

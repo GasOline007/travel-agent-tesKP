@@ -13,6 +13,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class TravelPackageResource extends Resource
 {
@@ -30,6 +31,11 @@ class TravelPackageResource extends Resource
     public static function table(Table $table): Table
     {
         return TravelPackagesTable::configure($table);
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->with('categories');
     }
 
     public static function getRelations(): array

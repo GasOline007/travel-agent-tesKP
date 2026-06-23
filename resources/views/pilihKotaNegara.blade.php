@@ -49,44 +49,37 @@
                 {{-- Tampilan Grid --}}
                 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8">
                     @foreach ($lokasi as $item)
-                        {{-- Navigasi menggunakan $item['nama'] --}}
                         <a href="{{ route('packages.lokasiPaket', ['tipe' => $tipe, 'lokasi' => $item->location]) }}"
-                            class="group relative h-48 md:h-72 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 flex items-center justify-center bg-gray-200">
+                            class="group relative h-56 md:h-72 rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 block">
 
                             {{-- GAMBAR ASLI DARI DATA --}}
-                            <img src="{{ Storage::url($item->image) }}" alt="{{ $item->name }}"
+                            <img src="{{ Storage::url($item->image) }}" alt="{{ $item->location }}"
                                 class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
 
-                            {{-- Overlay Gradien agar teks terbaca jelas --}}
+                            {{-- Overlay Gradien (Lebih gelap di bawah agar teks putih sangat kontras) --}}
                             <div
-                                class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-300 z-10">
+                                class="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-900/40 to-transparent opacity-90 transition-opacity duration-300 group-hover:opacity-100">
                             </div>
 
-                            {{-- Border Efek saat Hover --}}
-                            <div
-                                class="absolute inset-0 border-4 border-transparent {{ $tipe === 'domestik' ? 'group-hover:border-[var(--color-travel-primary)]' : 'group-hover:border-[var(--color-travel-secondary)]' }} transition-all duration-500 rounded-3xl z-30">
-                            </div>
+                            {{-- Konten Teks (Menempel di bawah) --}}
+                            <div class="absolute bottom-0 left-0 w-full p-5 md:p-6 flex flex-col justify-end">
 
-                            {{-- Badge Lokasi (Atas Kanan) --}}
-                            <div
-                                class="absolute top-0 right-0 z-20 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-bl-xl rounded-tr-xl shadow-sm opacity-100 group-hover:opacity-0 transition-all duration-300 -translate-y-0 group-hover:-translate-y-2">
-                                <span
-                                    class="block text-travel-primary text-xs md:text-sm font-bold uppercase tracking-[0.15em]">
+                                {{-- Nama Lokasi --}}
+                                <h3
+                                    class="text-white text-xl md:text-2xl font-bold tracking-wide drop-shadow-md transition-transform duration-300 group-hover:-translate-y-1">
                                     {{ $item->location }}
-                                </span>
-                            </div>
+                                </h3>
 
-                            {{-- Konten Utama (Nama & Tombol Detail) --}}
-                            <div class="absolute bottom-6 left-6 z-20 right-6">
+                                {{-- Teks Aksi (Muncul saat di-hover) --}}
                                 <div
-                                    class="inline-flex items-center text-white/90 text-xs font-bold opacity-0 group-hover:opacity-100 transition-all duration-500 mt-2">
-                                    Lihat Paket {{ $tipe === 'domestik' ? 'Kota' : 'Negara' }}
-                                    <svg class="w-4 h-4 ml-1.5 transition-transform group-hover:translate-x-1"
-                                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    class="flex items-center text-travel-tertiary text-sm font-semibold opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500 mt-1">
+                                    <span>Lihat Paket</span>
+                                    <svg class="w-4 h-4 ml-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
                                             d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
                                     </svg>
                                 </div>
+
                             </div>
                         </a>
                     @endforeach

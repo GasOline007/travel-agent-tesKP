@@ -20,8 +20,9 @@ class PartnerForm
                 FileUpload::make('logo')
                     ->label('Logo Mitra')
                     ->image()
+                    ->disk('public')
                     ->directory('partners') // Akan disimpan di folder storage/app/public/partners
-                    ->nullable(), // Tidak wajib diisi
+                    ->required(),
             ]);
     }
 }

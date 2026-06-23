@@ -3,8 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Storage;
 
 class TravelPackage extends Model
 {
@@ -13,87 +14,26 @@ class TravelPackage extends Model
 
     // 2. Fillable: Daftar kolom yang boleh diisi secara massal
     protected $fillable = [
-        'type', 
-        'name', 
-        'slug', 
-        'category', 
-        'is_recommended', 
-        'price', 
-        'original_price', 
-        'trip_sequence', 
-        'duration', 
-        'location', 
-        'image', 
-        'description', 
-        'gallery', 
-        'itinerary', 
-        'inclusions', 
-        'exclusions', 
-        'notes'
+        'type',
+        'name',
+        'slug',
+        'is_recommended',
+        'price',
+        'original_price',
+        'trip_sequence',
+        'duration',
+        'location',
+        'image',
+        'description',
     ];
 
     // 3. Casts: Mengubah tipe data secara otomatis saat diambil dari DB
     protected $casts = [
-        'category'       => 'array', // Data JSON di DB otomatis jadi Array PHP
-        'gallery'        => 'array',
-        'itinerary'      => 'array',
-        'inclusions'     => 'array',
-        'exclusions'     => 'array',
-        'notes'          => 'array',
         'is_recommended' => 'boolean', // Data 0/1 di DB otomatis jadi true/false
         'price'          => 'decimal:2',
         'original_price' => 'decimal:2',
         'trip_sequence'  => 'array',
     ];
-
-
-    /* protected static function booted(): void
-    {
-        // ── SAAT EDIT ──────────────────────────────────────
-        static::updating(function (TravelPackage $package) {
-            // Hapus foto sampul lama jika diganti
-            if ($package->isDirty('image')) {
-                $imageLama = $package->getOriginal('image');
-                if ($imageLama) {
-                    Storage::disk('public')->delete($imageLama);
-                }
-            }
-
-            // Hapus hanya foto gallery yang dihilangkan
-            if ($package->isDirty('gallery')) {
-                $galleryLama = $package->getOriginal('gallery') ?? [];
-                $galleryBaru = $package->gallery ?? [];
-                $fotoDihapus = array_diff($galleryLama, $galleryBaru);
-
-                foreach ($fotoDihapus as $foto) {
-                    Storage::disk('public')->delete($foto);
-                }
-            }
-        });
-
-        // Saat DELETE — hapus semua gambar
-        static::deleting(function (TravelPackage $package) {
-            // Hapus foto sampul
-            if ($package->image) {
-                Storage::disk('public')->delete($package->image);
-            }
-
-            // Hapus semua foto gallery
-            if ($package->gallery) {
-                foreach ($package->gallery as $foto) {
-                    Storage::disk('public')->delete($foto);
-                }
-            }
-        });
-    }
-
-
-    // Relasi ke harga peserta
-    public function Detail(): HasMany
-    {
-        return $this->hasMany(TravelPackageDetail::class);
-    } */
-
 
 
     protected static function booted(): void
@@ -108,16 +48,8 @@ class TravelPackage extends Model
                 }
             }
 
-            // Hapus hanya foto gallery yang dihilangkan
-            if ($package->isDirty('gallery')) {
-                $oldGallery = $package->getOriginal('gallery') ?? [];
-                $newGallery = $package->gallery ?? [];
-                $deletedPhotos = array_diff($oldGallery, $newGallery);
-
-                foreach ($deletedPhotos as $photo) {
-                    Storage::disk('public')->delete($photo);
-                }
-            }
+            // ✅ Gallery sekarang dihandle terpisah lewat model TravelPackageGallery,
+            // jadi tidak perlu logic isDirty('gallery') di sini.
         });
 
         // ── SAAT DELETE ──────────────────────────────────────
@@ -127,16 +59,53 @@ class TravelPackage extends Model
                 Storage::disk('public')->delete($package->image);
             }
 
-            // Hapus semua foto gallery
-            if ($package->gallery) {
-                foreach ($package->gallery as $photo) {
-                    Storage::disk('public')->delete($photo);
+            // Hapus semua file fisik dari relasi galleries
+            // Kita loop relasi galleries() yang kamu buat di bawahnya
+            foreach ($package->galleries as $galleryItem) {
+                if ($galleryItem->image) {
+                    Storage::disk('public')->delete($galleryItem->image);
                 }
             }
         });
     }
 
-    // Relasi ke harga peserta (Diubah menjadi huruf kecil dan jamak)
+
+
+    public function categories(): BelongsToMany
+    {
+        return $this->belongsToMany(Category::class, 'travel_package_category');
+    }
+
+    public function galleries(): HasMany
+    {
+        return $this->hasMany(TravelPackageGallery::class)->orderBy('order');
+    }
+
+    public function itineraries(): HasMany
+    {
+        return $this->hasMany(TravelPackageItinerary::class)->orderBy('day_number')->orderBy('order');
+    }
+
+    public function points(): HasMany
+    {
+        return $this->hasMany(TravelPackagePoint::class)->orderBy('order');
+    }
+
+    public function inclusions(): HasMany
+    {
+        return $this->hasMany(TravelPackageInclusion::class, 'travel_package_id')->orderBy('order');
+    }
+
+    public function exclusions(): HasMany
+    {
+        return $this->hasMany(TravelPackageExclusion::class, 'travel_package_id')->orderBy('order');
+    }
+
+    public function notes(): HasMany
+    {
+        return $this->hasMany(TravelPackageNote::class, 'travel_package_id')->orderBy('order');
+    }
+
     public function details(): HasMany
     {
         return $this->hasMany(TravelPackageDetail::class);

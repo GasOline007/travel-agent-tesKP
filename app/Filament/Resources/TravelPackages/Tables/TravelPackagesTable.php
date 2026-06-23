@@ -35,6 +35,14 @@ class TravelPackagesTable
                         default       => 'gray',
                     }),
 
+                // ✅ Kolom kategori baru — relasi belongsToMany
+                TextColumn::make('categories.name')
+                    ->label('Kategori')
+                    ->badge()
+                    ->separator(',')
+                    ->color('warning')
+                    ->searchable(),
+
                 TextColumn::make('location')
                     ->searchable()
                     ->icon('heroicon-o-map-pin'),
@@ -66,6 +74,13 @@ class TravelPackagesTable
                         'domestik'    => 'Domestik',
                         'mancanegara' => 'Mancanegara',
                     ]),
+
+                // ✅ Filter kategori baru — pakai relationship, bukan whereJsonContains lagi
+                SelectFilter::make('categories')
+                    ->label('Kategori')
+                    ->relationship('categories', 'name')
+                    ->multiple()
+                    ->preload(),
             ])
             ->recordActions([
                 EditAction::make(),

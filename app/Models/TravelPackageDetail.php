@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-//cek ini coba kalo error
 class TravelPackageDetail extends Model
 {
     protected $table = 'travel_package_detail';

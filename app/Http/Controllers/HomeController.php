@@ -12,13 +12,12 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
+    // Data Untuk Halaman Home
     public function index()
     {
-        // Cukup tarik data yang diperlukan untuk Home
-        //$banners = Banner::all();
-
         // Mengambil 3 paket yang ditandai sebagai rekomendasi, dan random agar tidak bosan
-        $recommendedPackages  = TravelPackage::where('is_recommended', true)
+        $recommendedPackages = TravelPackage::where('is_recommended', true)
+            ->with('categories') // eager load biar gak N+1 di Blade
             ->inRandomOrder()
             ->take(3)
             ->get();
@@ -32,7 +31,7 @@ class HomeController extends Controller
         // ambil no wa
         $no_wa = CompanyProfile::value('phone');
 
-        return view('home', compact('recommendedPackages','banners', 'partners', 'no_wa'));
+        return view('home', compact('recommendedPackages', 'banners', 'partners', 'no_wa'));
     }
 
 
@@ -46,7 +45,7 @@ class HomeController extends Controller
     }
     
 
-    // METHOD BARU UNTUK HALAMAN TENTANG KAMI
+    // UNTUK HALAMAN TENTANG KAMI
     public function about()
     {
         // Ambil data pertama (karena datanya cuma 1 baris)

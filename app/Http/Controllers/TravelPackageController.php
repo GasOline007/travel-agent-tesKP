@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\CompanyProfile;
 use App\Models\TravelPackage;
 use Illuminate\Http\Request;
@@ -23,36 +24,58 @@ class TravelPackageController extends Controller
         return view('pilihKotaNegara', compact('tipe', 'lokasi'));
     }
 
+
     // Halaman listing paket — setelah pilih lokasi & fitur search di destinasi
     public function byLokasi(Request $request, string $tipe, string $lokasi)
     {
+        // Validasi dasar untuk mencegah input aneh atau payload terlalu besar
+        $request->validate([
+            'cari' => 'nullable|string|max:255',
+            'kategori' => 'nullable|string|max:255',
+        ]);
+
         $query = TravelPackage::where('type', $tipe)->where('location', $lokasi);
 
-        // Logic pencarian hanya dijalankan jika ada parameter dari form (request)
         if ($request->hasAny(['cari', 'kategori'])) {
             if ($request->filled('cari')) {
-                $query->where('name', 'like', '%' . $request->cari . '%');
+                $keyword = trim($request->cari);
+                $query->where('name', 'like', '%' . $keyword . '%');
             }
             if ($request->filled('kategori')) {
-                $query->whereJsonContains('category', $request->kategori);
+                $kategoriSlug = trim($request->kategori);
+                // ✅ ganti whereJsonContains -> whereHas relasi categories
+                $query->whereHas('categories', function ($q) use ($kategoriSlug) {
+                    $q->where('slug', $kategoriSlug); // sesuaikan 'slug' atau 'name' dengan value yang dikirim form
+                });
             }
         }
 
-        $packages = $query->latest()->paginate(9)->withQueryString();
+        $packages = $query->with('categories')
+            ->latest()
+            ->paginate(9)
+            ->withQueryString();
 
-        // Kirimkan status notFound agar Blade tidak bingung
         $notFound = $packages->isEmpty() && ($request->filled('cari') || $request->filled('kategori'));
 
-        return view('destinasi', compact('tipe', 'lokasi', 'packages', 'notFound'));
+        // AMBIL SEMUA DATA KATEGORI DARI DATABASE
+        $categories = Category::all();
+
+        return view('destinasi', compact('tipe', 'lokasi', 'packages', 'notFound', 'categories'));
     }
 
-    // Tampikan Semua Halaman
+
+    // Tampikan Semua Paket
     public function index(Request $request)
     {
         $packages = TravelPackage::query()
             ->when($request->tipe, fn($q) => $q->where('type', $request->tipe))
             ->when($request->recommended, fn($q) => $q->where('is_recommended', true))
-            ->when($request->kategori, fn($q) => $q->whereJsonContains('category', $request->kategori))
+            ->when($request->kategori, fn($q) => $q->whereHas(
+                'categories',
+                fn($q2) =>
+                $q2->where('slug', $request->kategori)
+            ))
+            ->with('categories')
             ->latest()
             ->paginate(9);
 
@@ -62,7 +85,15 @@ class TravelPackageController extends Controller
     // Halaman detail paket
     public function show(string $slug)
     {
-        $package = TravelPackage::with('details')
+        $package = TravelPackage::with([
+            'details',
+            'categories',
+            'galleries',
+            'itineraries',
+            'inclusions',
+            'exclusions',
+            'notes',
+        ])
             ->where('slug', $slug)
             ->firstOrFail();
 

@@ -30,14 +30,14 @@
         <div class="flex flex-col lg:flex-row gap-10">
 
             <div class="lg:w-2/3 space-y-12">
-
+                {{-- Kategori & Deskripsi --}}
                 <section>
-                    @if (isset($package->category) && is_array($package->category))
+                    @if ($package->categories->isNotEmpty())
                         <div class="flex flex-wrap gap-2 mb-4">
-                            @foreach ($package->category as $kategori)
+                            @foreach ($package->categories as $kategori)
                                 <span
                                     class="bg-lime-50 border border-travel-secondary-dark text-travel-secondary-dark text-xs md:text-sm font-extrabold uppercase tracking-widest px-2.5 py-1 rounded-full">
-                                    {{ $kategori }}
+                                    {{ $kategori->name }}
                                 </span>
                             @endforeach
                         </div>
@@ -50,19 +50,30 @@
                 <section>
                     <h2 class="text-2xl font-bold text-gray-900 mb-6">Rencana Perjalanan</h2>
                     <div class="space-y-6">
-                        @foreach ($package->itinerary as $jadwal)
+                        @foreach ($package->itineraries as $jadwal)
                             <div class="group bg-white p-6 border border-gray-200 shadow-sm relative overflow-hidden">
                                 <div
                                     class="absolute left-0 top-0 w-1.5 bg-lime-400 h-0 transition-all duration-300 ease-out group-hover:h-full">
                                 </div>
-                                <h3 class="font-bold text-lg text-gray-900 mb-4 ml-2">Hari ke {{ $jadwal['day'] }}</h3>
+
+                                <h3 class="font-bold text-lg text-gray-900 mb-4 ml-2">
+                                    Hari ke {{ $jadwal->day_number }}
+                                    @if ($jadwal->title)
+                                        - {{ $jadwal->title }}
+                                    @endif
+                                </h3>
+
                                 <ul class="space-y-3 ml-2">
-                                    @foreach ($jadwal['kegiatan'] as $kegiatan)
-                                        <li class="flex items-start text-gray-600">
-                                            <div class="mt-1.5 mr-3 w-1.5 h-1.5 rounded-full bg-gray-400 shrink-0">
-                                            </div>
-                                            {{ $kegiatan }}
-                                        </li>
+                                    {{-- Memecah teks activity berdasarkan baris baru (enter) agar menjadi list --}}
+                                    @php $kegiatans = explode("\n", $jadwal->activity); @endphp
+                                    @foreach ($kegiatans as $kegiatan)
+                                        @if (trim($kegiatan) !== '')
+                                            <li class="flex items-start text-gray-600">
+                                                <div class="mt-1.5 mr-3 w-1.5 h-1.5 rounded-full bg-gray-400 shrink-0">
+                                                </div>
+                                                {{ $kegiatan }}
+                                            </li>
+                                        @endif
                                     @endforeach
                                 </ul>
                             </div>
@@ -83,7 +94,7 @@
                         <ul class="space-y-2">
                             @foreach ($package->inclusions as $item)
                                 <li class="text-gray-600 text-sm flex items-start">
-                                    <span class="text-green-500 mr-2">✓</span> {{ $item }}
+                                    <span class="text-green-500 mr-2">✓</span> {{ $item->content }}
                                 </li>
                             @endforeach
                         </ul>
@@ -100,7 +111,7 @@
                         <ul class="space-y-2">
                             @foreach ($package->exclusions as $item)
                                 <li class="text-gray-600 text-sm flex items-start">
-                                    <span class="text-red-500 mr-2">✕</span> {{ $item }}
+                                    <span class="text-red-500 mr-2">✕</span> {{ $item->content }}
                                 </li>
                             @endforeach
                         </ul>
@@ -110,14 +121,14 @@
                 {{-- gallery preview --}}
                 <section>
                     <h2 class="text-2xl font-bold text-gray-900 mb-6">Galeri Destinasi</h2>
-                    @if (isset($package->gallery) && count($package->gallery) > 0) {{-- Mengecek apakah key atau variabel gallery itu ada di dalam array $paket && Mengecek jumlah isi di dalam array gallery > 0 --}}
+                    @if ($package->galleries->isNotEmpty())
                         <div class="relative w-full rounded-3xl overflow-hidden shadow-lg group">
 
                             <div id="carousel-track"
                                 class="flex transition-transform duration-500 ease-in-out h-64 md:h-96">
-                                @foreach ($package->gallery as $img)
+                                @foreach ($package->galleries as $img)
                                     <div class="min-w-full h-full">
-                                        <img src="{{ Storage::url($img) }}" alt="Preview"
+                                        <img src="{{ Storage::url($img->image) }}" alt="Preview"
                                             class="w-full h-full object-cover">
                                     </div>
                                 @endforeach
@@ -140,7 +151,7 @@
                             </button>
 
                             <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
-                                @foreach ($package->gallery as $index => $img)
+                                @foreach ($package->galleries as $index => $img)
                                     <button
                                         class="indicator-btn cursor-pointer h-2.5 rounded-full transition-all duration-300 {{ $index == 0 ? 'w-6 bg-lime-400' : 'w-2.5 bg-white/50' }}"
                                         data-index="{{ $index }}"></button>
@@ -164,7 +175,7 @@
                     </h3>
                     <ul class="list-disc list-inside space-y-1 text-sm text-amber-800">
                         @foreach ($package->notes as $note)
-                            <li>{{ $note }}</li>
+                            <li>{{ $note->content }}</li>
                         @endforeach
                     </ul>
                 </section>

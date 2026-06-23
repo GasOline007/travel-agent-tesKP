@@ -28,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
             URL::forceScheme('https');
         }
 
-        // 3. Cek apakah tabelnya ada (agar tidak error saat migrasi awal jika di-deploy)
+        // Cek apakah tabelnya ada (agar tidak error saat migrasi awal jika di-deploy)
         if (\Illuminate\Support\Facades\Schema::hasTable('company_profiles')) {
             // Ambil baris pertama (ID: 1) dari database
             $company = CompanyProfile::first(); 

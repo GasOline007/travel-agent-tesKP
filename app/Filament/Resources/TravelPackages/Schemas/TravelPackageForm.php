@@ -45,14 +45,22 @@ class TravelPackageForm
                         ->numeric()
                         ->prefix('Rp')
                         ->required(),
-                    Select::make('category')
+
+                    // ✅ Sekarang relasi many-to-many ke tabel categories
+                    Select::make('categories')
                         ->label('Kategori')
+                        ->relationship('categories', 'name')
                         ->multiple()
-                        ->options([
-                            'Open Trip' => 'Open Trip',
-                            'Family Gathering' => 'Family Gathering',
-                            'Private Trip' => 'Private Trip',
+                        ->preload()
+                        ->searchable()
+                        ->createOptionForm([
+                            TextInput::make('name')
+                                ->required()
+                                ->live(onBlur: true)
+                                ->afterStateUpdated(fn($state, $set) => $set('slug', Str::slug($state))),
+                            TextInput::make('slug')->required(),
                         ]),
+
                     Toggle::make('is_recommended')
                         ->label('Rekomendasikan Paket?'),
                     TextInput::make('original_price')
@@ -70,13 +78,25 @@ class TravelPackageForm
                         ->disk('public')
                         ->directory('packages-thumbnails') // folder di storage/app/public
                         ->required(),
-                    FileUpload::make('gallery')
+
+                    // ✅ Gallery sekarang relasi hasMany, bukan kolom JSON
+                    Repeater::make('galleries')
+                        ->relationship()
                         ->label('Gallery Foto Preview')
-                        ->image()
-                        ->disk('public')
-                        ->multiple() // Bisa upload banyak sekaligus
+                        ->schema([
+                            FileUpload::make('image')
+                                ->label('Foto')
+                                ->image()
+                                ->disk('public')
+                                ->directory('packages-galleries')
+                                ->required(),
+                        ])
                         ->reorderable()
-                        ->directory('packages-galleries'),
+                        ->orderColumn('order')
+                        ->defaultItems(0)
+                        ->addActionLabel('Tambah Foto')
+                        ->columnSpanFull(),
+                        
                     Textarea::make('description')
                         ->label('Deskripsi Lengkap Paket')
                         ->columnSpanFull(),
@@ -84,27 +104,62 @@ class TravelPackageForm
 
             Section::make('Rencana Perjalanan (Itinerary)')
                 ->schema([
-                    Repeater::make('itinerary')
+                    // ✅ itinerary sekarang relasi hasMany
+                    Repeater::make('itineraries')
+                        ->relationship()
                         ->schema([
-                            TextInput::make('day')->required()->label('Hari'),
-                            Repeater::make('kegiatan')
-                                ->simple(TextInput::make('item'))
-                                ->reorderable()
-                                ->label('Kegiatan'),
-                        ])->collapsible()->itemLabel(fn(array $state): ?string => $state['day'] ?? 'Hari Baru'),
+                            TextInput::make('day_number')
+                                ->label('Hari Ke-')
+                                ->numeric()
+                                ->required(),
+                            TextInput::make('title')
+                                ->label('Judul (Opsional)'),
+                            Textarea::make('activity')
+                                ->label('Aktivitas')
+                                ->required(),
+                        ])
+                        ->orderColumn('order')
+                        ->collapsible()
+                        ->itemLabel(fn(array $state): ?string => isset($state['day_number'])
+                            ? 'Hari ' . $state['day_number']
+                            : 'Hari Baru')
+                        ->addActionLabel('Tambah Hari'),
                 ]),
 
             Section::make('Detail Kelengkapan')
                 ->schema([
+                    // ✅ inclusions, exclusions, notes sekarang satu tabel travel_package_points
+                    // dipisah pakai filter relationship per type
+
                     Repeater::make('inclusions')
-                        ->simple(TextInput::make('item'))
-                        ->label('Apa Saja Yang Termasuk?'),
+                        ->relationship()
+                        ->simple(
+                            TextInput::make('content')->label('Item')->required()
+                        )
+                        ->orderColumn('order')
+                        ->label('Apa Saja Yang Termasuk?')
+                        ->addActionLabel('Tambah Item')
+                        ->mutateRelationshipDataBeforeCreateUsing(fn(array $data) => [...$data, 'type' => 'inclusion']),
+
                     Repeater::make('exclusions')
-                        ->simple(TextInput::make('item'))
-                        ->label('Apa Yang Tidak Termasuk?'),
+                        ->relationship()
+                        ->simple(
+                            TextInput::make('content')->label('Item')->required()
+                        )
+                        ->orderColumn('order')
+                        ->label('Apa Yang Tidak Termasuk?')
+                        ->addActionLabel('Tambah Item')
+                        ->mutateRelationshipDataBeforeCreateUsing(fn(array $data) => [...$data, 'type' => 'exclusion']),
+
                     Repeater::make('notes')
-                        ->simple(TextInput::make('item'))
-                        ->label('Catatan Penting'),
+                        ->relationship()
+                        ->simple(
+                            TextInput::make('content')->label('Item')->required()
+                        )
+                        ->orderColumn('order')
+                        ->label('Catatan Penting')
+                        ->addActionLabel('Tambah Catatan')
+                        ->mutateRelationshipDataBeforeCreateUsing(fn(array $data) => [...$data, 'type' => 'note']),
                 ])->columns(1),
         ]);
     }

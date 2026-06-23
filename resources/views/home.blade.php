@@ -10,13 +10,13 @@
     {{-- Hero Section: Premium Professional Travel --}}
     {{-- gallery carousel preview --}}
     <section class="w-full"> {{-- Container agar lebih rapi di layar lebar --}}
-        <div class="relative w-full mt-20 h-[70vh] overflow-hidden shadow-2xl group">
+        <div class="relative w-full mt-20 h-[50vh] md:h-[70vh] overflow-hidden shadow-2xl group">
 
             <div id="carousel-track" class="flex transition-transform duration-700 ease-in-out h-full">
-                @foreach ($banners as $arr)
+                @foreach ($banners as $banner)
                     <div class="relative min-w-full h-full bg-gray-900">
                         {{-- Image Slider --}}
-                        <img src="{{ asset('storage/' . $arr['image']) }}" alt="Carousel Image" class="w-full h-full object-cover">
+                        <img src="{{ Storage::url($banner->image) }}" alt="Carousel Image" class="w-full h-full object-cover">
 
                         {{-- Overlay Gradien Hitam (PENTING agar teks terbaca) --}}
                         <div class="absolute inset-0 bg-linear-to-t from-black/80 via-black/30 to-transparent"></div>
@@ -26,19 +26,19 @@
                             {{-- Judul Utama --}}
                             <h1
                                 class="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white drop-shadow-xl mb-4 tracking-tight leading-tight max-w-4xl">
-                                {{ $arr['text'] }}
+                                {{ $banner->text }}
                             </h1>
 
                             {{-- Subjudul --}}
-                            @if ($arr['subtext'] ?? false)
+                            @if ($banner->subtext)
                                 <p class="text-white/75 text-base md:text-xl max-w-2xl mb-8 leading-relaxed font-light">
-                                    {{ $arr['subtext'] }}
+                                    {{ $banner->subtext }}
                                 </p>
                             @endif
 
                             {{-- Tombol CTA --}}
-                            @if ($arr['button'] ?? false)
-                                <a href="{{ $arr['link'] ?? '#' }}"
+                            @if ($banner->button)
+                                <a href="{{ $banner->link ?? '#' }}"
                                     class="group/btn inline-flex items-center gap-3 bg-travel-tertiary hover:bg-travel-tertiary text-gray-900 font-bold text-sm md:text-base px-8 py-4 rounded-full shadow-2xl shadow-amber-500/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-amber-400/50 uppercase tracking-widest">
                                     Lihat Paket Wisata
                                     <svg class="w-4 h-4 transition-transform group-hover/btn:translate-x-1" fill="none"
@@ -52,9 +52,6 @@
                     </div>
                 @endforeach
             </div>
-
-
-
 
             {{-- Tombol Di Mobile --}}
             <div
@@ -75,9 +72,6 @@
                 </svg>
             </div>
 
-
-
-
             {{-- Tombol Prev --}}
             <button id="prevBtn"
                 class="absolute hidden md:block mx-4 left-4 bottom-6 md:bottom-auto md:left-6 md:top-1/2 md:-translate-y-1/2 bg-white/80 hover:bg-white/30 text-gray-900 hover:text-gray-900 p-4 rounded-full backdrop-blur-md transition-all duration-300 opacity-0 group-hover:opacity-100 shadow-lg cursor-pointer">
@@ -97,200 +91,111 @@
         </div>
     </section>
 
+    {{-- Company Specialist (8 Grid Layout) --}}
+<section class="w-full bg-zinc-50 py-24 px-4 md:px-6 lg:px-12 overflow-hidden relative">
+    
+    {{-- Aksen Latar Belakang --}}
+    <div class="absolute top-0 right-0 w-[40rem] h-[40rem] bg-travel-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none"></div>
 
+    <div class="max-w-7xl mx-auto relative z-10">
 
-
-    {{-- Apa yang Bisa Kami Bantu? --}}
-    <section class="w-full bg-zinc-50 py-24 px-4 md:px-6 lg:px-12 overflow-hidden">
-        <div class="max-w-7xl mx-auto">
-
-            {{-- Header --}}
-            <div class="flex flex-col mb-8">
-                <div>
-                    <h2 class="text-4xl md:text-5xl font-serif font-bold text-gray-900 leading-tight mb-4">
-                        Company Specialist
-                    </h2>
-                </div>
-                <p class="text-gray-600 text-lg">
-                    Tiga layanan utama kami<br>dirancang untuk memenuhi setiap kebutuhan perjalanan Anda.
-                </p>
-            </div>
-
-            {{-- Cards --}}
-            <div
-                class="grid grid-cols-1 md:grid-cols-3 gap-px bg-gray-100 rounded-3xl overflow-hidden border border-travel-primary">
-
-                {{-- 1. Jasa & Layanan Wisata --}}
-                <div
-                    class="group bg-white hover:bg-gray-950 transition-colors duration-500 p-8 md:p-10 flex flex-col gap-8 cursor-default">
-
-                    {{-- Nomor + Icon --}}
-                    <div class="flex items-start justify-between">
-                        <span
-                            class="text-[11px] font-bold text-gray-600 group-hover:text-zinc-300 tracking-widest transition-colors duration-500">
-                            01
-                        </span>
-                        <div
-                            class="w-10 h-10 rounded-full border border-gray-100 group-hover:border-travel-primary/40 flex items-center justify-center transition-all duration-500">
-                            <svg class="w-6 h-6 text-gray-400 group-hover:text-travel-primary transition-colors duration-500"
-                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
-                                    d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                            </svg>
-                        </div>
-                    </div>
-
-                    {{-- Konten --}}
-                    <div class="flex flex-col gap-4 flex-1">
-                        <h3
-                            class="text-2xl font-bold text-gray-900 group-hover:text-white transition-colors duration-500 leading-snug">
-                            Jasa & Layanan Wisata
-                        </h3>
-                        <p
-                            class="text-sm text-gray-400 group-hover:text-zinc-500 leading-relaxed transition-colors duration-500">
-                            Perencanaan perjalanan dari awal hingga akhir — itinerary, pemandu lokal, akomodasi, dan tiket
-                            wisata semua diurus oleh tim profesional kami.
-                        </p>
-
-                        <ul class="mt-2 space-y-2.5">
-                            @foreach (['Perencanaan Itinerary', 'Guide Lokal Berpengalaman', 'Booking Hotel & Akomodasi', 'Tiket Wisata & Pesawat'] as $item)
-                                <li class="flex items-center gap-3">
-                                    <div class="w-px h-3 bg-travel-primary shrink-0"></div>
-                                    <span
-                                        class="text-xs text-gray-500 group-hover:text-zinc-400 transition-colors duration-500">
-                                        {{ $item }}
-                                    </span>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
-
-                    {{-- CTA --}}
-                    <a href="https://wa.me/{{ $no_wa }}" target="_blank"
-                        class="inline-flex items-center gap-2 text-xs font-bold text-gray-400 group-hover:text-travel-primary transition-all duration-300 hover:gap-4 w-fit mt-auto">
-                        Konsultasi Gratis
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
-                                d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                        </svg>
-                    </a>
-                </div>
-
-                {{-- 2. Paket Wisata (highlighted) --}}
-                <div
-                    class="group bg-gray-950 hover:bg-travel-primary transition-colors duration-500 p-8 md:p-10 flex flex-col gap-8 cursor-default relative overflow-hidden">
-
-                    {{-- Nomor + Icon --}}
-                    <div class="flex items-start justify-between">
-                        <span
-                            class="text-[11px] font-bold text-gray-300 group-hover:text-zinc-600 tracking-widest transition-colors duration-500">
-                            02
-                        </span>
-                        <div
-                            class="w-10 h-10 rounded-full border border-travel-tertiary group-hover:border-zinc-600 flex items-center justify-center transition-all duration-500">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="1.5" stroke="currentColor"
-                                class="w-6 h-6 text-travel-tertiary group-hover:text-zinc-600 transition-colors duration-500">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M9 6.75V15m6-6v8.25m.503 3.498 4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 0 0-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0Z" />
-                            </svg>
-                        </div>
-                    </div>
-
-                    <div class="flex flex-col gap-4 flex-1">
-                        <h3 class="text-2xl font-bold text-white leading-snug">
-                            Paket Wisata
-                        </h3>
-                        <p
-                            class="text-sm text-zinc-400 group-hover:text-white/70 leading-relaxed transition-colors duration-500">
-                            Domestik maupun mancanegara — paket siap berangkat dengan harga transparan, fasilitas lengkap,
-                            dan itinerary yang sudah tersusun rapi.
-                        </p>
-
-                        <ul class="mt-2 space-y-2.5">
-                            @foreach (['Open Trip & Private Trip', 'Family Gathering', 'Meeting Planner / MICE', 'Custom Paket Sesuai Budget'] as $item)
-                                <li class="flex items-center gap-3">
-                                    <div
-                                        class="w-px h-3 bg-travel-tertiary group-hover:bg-white shrink-0 transition-colors duration-500">
-                                    </div>
-                                    <span
-                                        class="text-xs text-zinc-400 group-hover:text-white/80 transition-colors duration-500">
-                                        {{ $item }}
-                                    </span>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
-
-                    <a href="{{ route('packages.tipe') }}"
-                        class="inline-flex items-center gap-2 text-xs font-bold text-travel-tertiary group-hover:text-white transition-all duration-300 hover:gap-4 w-fit mt-auto">
-                        Lihat Semua Paket
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
-                                d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                        </svg>
-                    </a>
-                </div>
-
-                {{-- 3. Sewa Transportasi --}}
-                <div
-                    class="group bg-white hover:bg-gray-950 transition-colors duration-500 p-8 md:p-10 flex flex-col gap-8 cursor-default">
-
-                    <div class="flex items-start justify-between">
-                        <span
-                            class="text-[11px] font-bold text-gray-600 group-hover:text-zinc-300 tracking-widest transition-colors duration-500">
-                            03
-                        </span>
-                        <div
-                            class="w-10 h-10 rounded-full border border-gray-100 group-hover:border-travel-secondary/40 flex items-center justify-center transition-all duration-500">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="1.5" stroke="currentColor"
-                                class="w-6 h-6 text-gray-400 group-hover:text-travel-secondary transition-colors duration-500">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 0 1 0 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 0 1 0-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375Z" />
-                            </svg>
-                        </div>
-                    </div>
-
-                    <div class="flex flex-col gap-4 flex-1">
-                        <h3
-                            class="text-2xl font-bold text-gray-900 group-hover:text-white transition-colors duration-500 leading-snug">
-                            Sewa Transportasi
-                        </h3>
-                        <p
-                            class="text-sm text-gray-400 group-hover:text-zinc-500 leading-relaxed transition-colors duration-500">
-                            Armada lengkap dengan pengemudi berpengalaman untuk perjalanan wisata, jemput bandara, atau
-                            acara khusus Anda.
-                        </p>
-
-                        <ul class="mt-2 space-y-2.5">
-                            @foreach (['Minibus & Hiace', 'Elf & Medium Bus', 'Big Bus Pariwisata', 'Jemput Antar Bandara'] as $item)
-                                <li class="flex items-center gap-3">
-                                    <div class="w-px h-3 bg-travel-secondary shrink-0"></div>
-                                    <span
-                                        class="text-xs text-gray-500 group-hover:text-zinc-400 transition-colors duration-500">
-                                        {{ $item }}
-                                    </span>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
-
-                    <a href="https://wa.me/{{ env('WHATSAPP_NUMBER') }}" target="_blank"
-                        class="inline-flex items-center gap-2 text-xs font-bold text-gray-400 group-hover:text-travel-secondary transition-all duration-300 hover:gap-4 w-fit mt-auto">
-                        Cek Ketersediaan
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
-                                d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                        </svg>
-                    </a>
-                </div>
-
-            </div>
+        {{-- Header Section --}}
+        <div class="text-center mb-16">
+            <span class="text-travel-primary font-bold tracking-widest text-sm uppercase mb-3 block">Layanan Spesialis</span>
+            <h2 class="text-3xl md:text-5xl font-serif font-extrabold text-gray-900 mb-6">
+                Company Specialist
+            </h2>
+            <p class="text-gray-500 max-w-2xl mx-auto text-lg">
+                Delapan layanan unggulan kami yang dirancang khusus untuk memenuhi berbagai agenda, edukasi, hiburan, hingga kebutuhan bisnis Anda.
+            </p>
         </div>
-    </section>
 
+        {{-- 8 Grid Items --}}
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
 
+            {{-- 1. Company Gathering --}}
+            <div class="group bg-white border border-gray-100 hover:border-travel-primary/50 hover:shadow-xl hover:shadow-travel-primary/10 rounded-2xl p-6 flex flex-col items-center text-center transition-all duration-300 hover:-translate-y-1">
+                <div class="w-14 h-14 bg-zinc-50 group-hover:bg-travel-primary/10 rounded-full flex items-center justify-center mb-4 transition-colors duration-300">
+                    <svg class="w-7 h-7 text-gray-400 group-hover:text-travel-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                </div>
+                <h3 class="font-bold text-gray-900 text-base md:text-lg">Company Gathering</h3>
+            </div>
+
+            {{-- 2. Family Gathering --}}
+            <div class="group bg-white border border-gray-100 hover:border-travel-primary/50 hover:shadow-xl hover:shadow-travel-primary/10 rounded-2xl p-6 flex flex-col items-center text-center transition-all duration-300 hover:-translate-y-1">
+                <div class="w-14 h-14 bg-zinc-50 group-hover:bg-travel-primary/10 rounded-full flex items-center justify-center mb-4 transition-colors duration-300">
+                    <svg class="w-7 h-7 text-gray-400 group-hover:text-travel-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+                    </svg>
+                </div>
+                <h3 class="font-bold text-gray-900 text-base md:text-lg">Family Gathering</h3>
+            </div>
+
+            {{-- 3. Meeting Gathering --}}
+            <div class="group bg-white border border-gray-100 hover:border-travel-primary/50 hover:shadow-xl hover:shadow-travel-primary/10 rounded-2xl p-6 flex flex-col items-center text-center transition-all duration-300 hover:-translate-y-1">
+                <div class="w-14 h-14 bg-zinc-50 group-hover:bg-travel-primary/10 rounded-full flex items-center justify-center mb-4 transition-colors duration-300">
+                    <svg class="w-7 h-7 text-gray-400 group-hover:text-travel-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
+                    </svg>
+                </div>
+                <h3 class="font-bold text-gray-900 text-base md:text-lg">Meeting Gathering</h3>
+            </div>
+
+            {{-- 4. Study Tour --}}
+            <div class="group bg-white border border-gray-100 hover:border-travel-primary/50 hover:shadow-xl hover:shadow-travel-primary/10 rounded-2xl p-6 flex flex-col items-center text-center transition-all duration-300 hover:-translate-y-1">
+                <div class="w-14 h-14 bg-zinc-50 group-hover:bg-travel-primary/10 rounded-full flex items-center justify-center mb-4 transition-colors duration-300">
+                    <svg class="w-7 h-7 text-gray-400 group-hover:text-travel-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
+                    </svg>
+                </div>
+                <h3 class="font-bold text-gray-900 text-base md:text-lg">Study Tour</h3>
+            </div>
+
+            {{-- 5. Outbound --}}
+            <div class="group bg-white border border-gray-100 hover:border-travel-primary/50 hover:shadow-xl hover:shadow-travel-primary/10 rounded-2xl p-6 flex flex-col items-center text-center transition-all duration-300 hover:-translate-y-1">
+                <div class="w-14 h-14 bg-zinc-50 group-hover:bg-travel-primary/10 rounded-full flex items-center justify-center mb-4 transition-colors duration-300">
+                    <svg class="w-7 h-7 text-gray-400 group-hover:text-travel-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 00-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0z" />
+                    </svg>
+                </div>
+                <h3 class="font-bold text-gray-900 text-base md:text-lg">Outbound</h3>
+            </div>
+
+            {{-- 6. Eco Edu Tourism --}}
+            <div class="group bg-white border border-gray-100 hover:border-travel-primary/50 hover:shadow-xl hover:shadow-travel-primary/10 rounded-2xl p-6 flex flex-col items-center text-center transition-all duration-300 hover:-translate-y-1">
+                <div class="w-14 h-14 bg-zinc-50 group-hover:bg-travel-primary/10 rounded-full flex items-center justify-center mb-4 transition-colors duration-300">
+                    <svg class="w-7 h-7 text-gray-400 group-hover:text-travel-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+                    </svg>
+                </div>
+                <h3 class="font-bold text-gray-900 text-base md:text-lg">Eco Edu Tourism</h3>
+            </div>
+
+            {{-- 7. Entertainment --}}
+            <div class="group bg-white border border-gray-100 hover:border-travel-primary/50 hover:shadow-xl hover:shadow-travel-primary/10 rounded-2xl p-6 flex flex-col items-center text-center transition-all duration-300 hover:-translate-y-1">
+                <div class="w-14 h-14 bg-zinc-50 group-hover:bg-travel-primary/10 rounded-full flex items-center justify-center mb-4 transition-colors duration-300">
+                    <svg class="w-7 h-7 text-gray-400 group-hover:text-travel-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
+                    </svg>
+                </div>
+                <h3 class="font-bold text-gray-900 text-base md:text-lg">Entertainment</h3>
+            </div>
+
+            {{-- 8. Entrepreneurship --}}
+            <div class="group bg-white border border-gray-100 hover:border-travel-primary/50 hover:shadow-xl hover:shadow-travel-primary/10 rounded-2xl p-6 flex flex-col items-center text-center transition-all duration-300 hover:-translate-y-1">
+                <div class="w-14 h-14 bg-zinc-50 group-hover:bg-travel-primary/10 rounded-full flex items-center justify-center mb-4 transition-colors duration-300">
+                    <svg class="w-7 h-7 text-gray-400 group-hover:text-travel-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.631 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 00-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 01-2.448-2.45" />
+                    </svg>
+                </div>
+                <h3 class="font-bold text-gray-900 text-base md:text-lg">Entrepreneurship</h3>
+            </div>
+
+        </div>
+    </div>
+</section>
 
     {{-- Tentang Kami --}}
     <section class="w-full bg-zinc-50 pb-20 px-4 md:pt-20 md:px-6 lg:px-12">
@@ -305,9 +210,15 @@
                     </h2>
 
                     <p class="text-gray-600 text-lg leading-relaxed mb-6">
-                        <strong>Arfaka Tour and Travel</strong> hadir untuk mewujudkan perjalanan impian Anda dengan layanan
-                        yang profesional dan transparan. Kami percaya bahwa setiap perjalanan bukan sekadar mengunjungi
-                        destinasi, melainkan merangkai cerita dan pengalaman berharga yang patut dikenang selamanya.
+                        <strong>Arfaka</strong> merupakan suatu perusahaan yang bergerak dalam
+                        bidang jasa yang meliputi berbagai kebutuhan seperti, Event
+                        Organizer, Tour Travel, Outbound Activity, Gathering, Foto Video
+                        Graphy serta kebutuhan event lainnya.
+                        Dengan mengusung motto 'Guide Better Activity', Staff maupun
+                        segenap Tim Lapangan, baik Project Officer, Fasilitator & Guide
+                        ARFAKA senantiasa melayani klien dengan pelayanan yang
+                        terbaik sepenuh hati demi kepuasan serta kebermanfaatan
+                        dalam setiap program yang dilaksanakan.
                     </p>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -340,7 +251,7 @@
 
                         <div class="flex flex-col gap-10 pl-8">
 
-                            {{-- 2016 --}}
+                            {{-- 2010 --}}
                             <div class="relative">
                                 <div
                                     class="absolute -left-8.5 top-1 w-3 h-3 rounded-full bg-travel-primary border-2 border-white ring-2 ring-travel-primary/20">
@@ -418,7 +329,7 @@
                         Dipercaya & Bekerja Sama Dengan
                     </p>
                 </div>
-                <div class="relative" x-data="{ paused: false }">
+                <div class="relative marquee-wrapper">
                     <div
                         class="absolute left-0 top-0 h-full w-24 md:w-40 bg-linear-to-r from-zinc-50 to-transparent z-10 pointer-events-none">
                     </div>
@@ -426,16 +337,18 @@
                         class="absolute right-0 top-0 h-full w-24 md:w-40 bg-linear-to-l from-zinc-50 to-transparent z-10 pointer-events-none">
                     </div>
 
-                    <div class="flex items-center marquee-track" :class="paused ? 'marquee-paused' : ''"
-                        @mouseenter="paused = true" @mouseleave="paused = false">
+                    @php
+                        $speedPerItem = 8; // detik per logo
+                        $duration = max(30, count($partners) * $speedPerItem);
+                    @endphp
 
-                        {{-- SET 1: Kita paksa Blade untuk menggandakan datanya 5 KALI --}}
+                    <div class="flex items-center marquee-track" style="--marquee-duration: {{ $duration }}s">
+
+                        {{-- SET 1 --}}
                         @for ($i = 0; $i < 5; $i++)
                             @foreach ($partners as $partner)
                                 @if ($partner->logo)
-                                    {{-- Perhatikan: Pakai ->logo, bukan ['logo'] --}}
                                     <img src="{{ Storage::url($partner->logo) }}" alt="{{ $partner->name }}"
-                                        {{-- alt cukup panggil teks namanya saja --}}
                                         class="h-28 w-auto object-contain shrink-0 mr-20 opacity-60 hover:opacity-100 transition-all duration-300">
                                 @else
                                     <span
@@ -446,7 +359,7 @@
                             @endforeach
                         @endfor
 
-                        {{-- SET 2: Gandakan 5 KALI juga agar imbang sebagai bayangan di belakang --}}
+                        {{-- SET 2 --}}
                         @for ($i = 0; $i < 5; $i++)
                             @foreach ($partners as $partner)
                                 @if ($partner->logo)
@@ -469,8 +382,6 @@
 
         </div>
     </section>
-
-
 
     {{-- section why choose this travel agent --}}
     <section class="bg-gray-950 text-white py-26 relative">
@@ -496,9 +407,10 @@
                                 </div>
                             </div>
                             <div class="ml-4">
-                                <h4 class="text-xl font-bold">Agen Perjalanan Terpercaya</h4>
-                                <p class="mt-1 text-gray-500">Legalitas jelas dan pengalaman melayani ratusan rute
-                                    perjalanan di Bali.</p>
+                                <h4 class="text-xl font-bold">Personal</h4>
+                                <p class="mt-1 text-gray-400">Memberikan yang terbaik dengan, Attitude, Ramah,
+                                    santun dan Profesional dalam melayani kegiatan
+                                    ataupun perjalanan wisata</p>
                             </div>
                         </div>
 
@@ -513,9 +425,10 @@
                                 </div>
                             </div>
                             <div class="ml-4">
-                                <h4 class="text-xl font-bold">Harga Jujur & Transparan</h4>
-                                <p class="mt-1 text-gray-500">Paket All-in-One yang sudah mencakup tiket wisata,
-                                    transport, hingga makan.</p>
+                                <h4 class="text-xl font-bold">Price</h4>
+                                <p class="mt-1 text-gray-400">Memberikan solusi paket wisata dengan menyesuaikan
+                                    harga terbaik hingga pemilihan destinasi wisata dengan
+                                    mengutamakan kualitas pelayanan dan fasilitas </p>
                             </div>
                         </div>
 
@@ -530,15 +443,16 @@
                                 </div>
                             </div>
                             <div class="ml-4">
-                                <h4 class="text-xl font-bold">Support Penuh 24 Jam</h4>
-                                <p class="mt-1 text-gray-500">Customer service yang ramah siap dihubungi kapan pun Anda
-                                    butuh.</p>
+                                <h4 class="text-xl font-bold">Program</h4>
+                                <p class="mt-1 text-gray-400">Pilihan paket wisata sesuai dengan keinginan anda dan
+                                    didukung dengan pelayanan terbaik dan ramah serta
+                                    profesional</p>
                             </div>
                         </div>
                     </div>
 
                     <div class="mt-12 flex justify-center md:justify-start">
-                        <a href="{{ env('WHATSAPP_NUMBER') }}"
+                        <a href="https://wa.me/{{ $no_wa }}" target="_blank"
                             class="inline-block bg-travel-tertiary text-gray-950 text-sm font-bold uppercase tracking-wider px-10 py-4 rounded hover:bg-travel-tertiary-dark hover:text-gray-900 transition-colors">
                             Hubungi Kami
                         </a>
@@ -549,7 +463,7 @@
                     <div
                         class="hidden lg:block absolute -top-4 -right-4 w-full h-full border-2 border-travel-primary rounded-2xl">
                     </div>
-                    <img src="{{ asset('img/flyerKepulauanSeribu.svg') }}" alt="Bali"
+                    <img src="{{ asset('img/posterHome.webp') }}" alt="Bali"
                         class="relative w-full h-fit object-cover rounded-2xl shadow-xl z-10 hidden md:block">
                 </div>
 
@@ -558,111 +472,108 @@
     </section>
 
     {{-- Section Visi & Misi Travel Agent --}}
-    <section class="bg-gray-950 text-white py-26 relative">
-        <div class="max-w-7xl mx-auto px-4 md:px-6 lg:px-12">
-            <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+    <section class="bg-gray-950 py-24 md:py-32 relative overflow-hidden">
 
-                {{-- Bagian Kiri: Gambar Representatif --}}
-                <div class="w-full lg:w-1/2 relative">
-                    <div
-                        class="hidden lg:block absolute -top-4 -right-4 w-full h-full border-2 border-travel-primary rounded-2xl">
+        {{-- Aksen Blur Minimalis di Latar Belakang (Opsional agar tidak terlalu flat) --}}
+        <div
+            class="absolute top-0 right-0 -mr-32 -mt-32 w-[30rem] h-[30rem] rounded-full bg-travel-primary/5 blur-3xl pointer-events-none">
+        </div>
+
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-start">
+
+                {{-- Kolom Kiri: VISI (Span 5) --}}
+                <div class="lg:col-span-5 flex flex-col">
+                    {{-- Label Sub-judul --}}
+                    <div class="inline-flex items-center gap-3 mb-6">
+                        <span class="w-12 h-px bg-travel-primary"></span>
+                        <span class="text-travel-primary text-sm font-bold tracking-widest uppercase">Visi
+                            Perusahaan</span>
                     </div>
-                    {{-- Pastikan kamu mengganti 'img/visi-misi-arfaka.jpg' dengan nama file fotomu yang sebenarnya --}}
-                    <img src="{{ asset('img/flyerKepulauanSeribu.svg') }}" alt="Visi Misi Arfaka Tour"
-                        class="relative w-full h-[500px] object-cover rounded-2xl shadow-xl z-10 hidden md:block">
-                </div>
 
-                {{-- Bagian Kanan: Konten Visi & Misi --}}
-                <div class="w-full lg:w-1/2">
-                    <span class="text-travel-primary font-bold tracking-widest text-lg uppercase mb-2 block">Tentang
-                        Kami</span>
-                    <h2 class="text-3xl md:text-5xl font-serif font-extrabold tracking-tight mb-8">
-                        Visi & Misi<br><span class="text-travel-tertiary">Arfaka Tour.</span>
+                    {{-- Tipografi Besar untuk Visi --}}
+                    <h2 class="text-3xl md:text-4xl font-serif font-extrabold text-white leading-tight mb-8">
+                        Menjadi <span class="text-travel-tertiary">Terdepan</span> dalam Pengalaman Perjalanan Anda.
                     </h2>
 
-                    {{-- Visi Perusahaan --}}
-                    <div class="mb-10 p-6 bg-gray-900 rounded-xl border-l-4 border-travel-primary">
-                        <h3 class="text-xl font-bold mb-3 flex items-center text-white">
-                            <svg class="w-6 h-6 mr-2 text-travel-primary" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                                </path>
-                            </svg>
-                            Visi Kami
-                        </h3>
-                        <p class="text-gray-400 leading-relaxed italic">
-                            "Menjadi biro perjalanan terdepan di Indonesia yang memberikan pengalaman wisata tak terlupakan,
-                            aman, dan berkualitas tinggi, serta berkontribusi dalam memajukan pariwisata lokal yang
-                            berkelanjutan."
-                        </p>
-                    </div>
-
-                    {{-- Misi Perusahaan --}}
-                    <div class="space-y-6">
-                        <h3 class="text-xl font-bold mb-4 flex items-center text-white">
-                            <svg class="w-6 h-6 mr-2 text-travel-tertiary" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                            </svg>
-                            Misi Kami
-                        </h3>
-
-                        {{-- Poin Misi 1 --}}
-                        <div class="flex items-start">
-                            <div class="shrink-0 mt-1">
-                                <div
-                                    class="w-6 h-6 rounded-full bg-travel-primary/20 flex items-center justify-center border border-travel-primary">
-                                    <span class="text-travel-primary text-xs font-bold">1</span>
-                                </div>
-                            </div>
-                            <div class="ml-4">
-                                <h4 class="text-lg font-semibold text-gray-200">Pelayanan Prima</h4>
-                                <p class="mt-1 text-sm text-gray-500">Memberikan pelayanan profesional, ramah, dan solutif
-                                    untuk memenuhi setiap kebutuhan perjalanan pelanggan.</p>
-                            </div>
-                        </div>
-
-                        {{-- Poin Misi 2 --}}
-                        <div class="flex items-start">
-                            <div class="shrink-0 mt-1">
-                                <div
-                                    class="w-6 h-6 rounded-full bg-travel-primary/20 flex items-center justify-center border border-travel-primary">
-                                    <span class="text-travel-primary text-xs font-bold">2</span>
-                                </div>
-                            </div>
-                            <div class="ml-4">
-                                <h4 class="text-lg font-semibold text-gray-200">Paket Wisata Inovatif</h4>
-                                <p class="mt-1 text-sm text-gray-500">Menyediakan berbagai pilihan destinasi dan paket
-                                    perjalanan yang unik, fleksibel, dan transparan.</p>
-                            </div>
-                        </div>
-
-                        {{-- Poin Misi 3 --}}
-                        <div class="flex items-start">
-                            <div class="shrink-0 mt-1">
-                                <div
-                                    class="w-6 h-6 rounded-full bg-travel-primary/20 flex items-center justify-center border border-travel-primary">
-                                    <span class="text-travel-primary text-xs font-bold">3</span>
-                                </div>
-                            </div>
-                            <div class="ml-4">
-                                <h4 class="text-lg font-semibold text-gray-200">Mitra Terpercaya</h4>
-                                <p class="mt-1 text-sm text-gray-500">Membangun kolaborasi yang baik dengan mitra penyedia
-                                    jasa (hotel, transportasi) demi kenyamanan perjalanan.</p>
-                            </div>
-                        </div>
-                    </div>
-
+                    <p class="text-lg md:text-xl text-gray-400 font-light leading-relaxed">
+                        "Menjadi penyedia jasa layanan pariwisata terdepan yang mengutamakan kualitas pelayanan dan
+                        manajemen perjalanan, guna menjamin keamanan, kenyamanan, serta menciptakan pengalaman wisata yang
+                        menyenangkan dan berkesan bagi setiap pelanggan."
+                    </p>
                 </div>
+
+                {{-- Kolom Kanan: MISI (Span 7) --}}
+                <div class="lg:col-span-7 flex flex-col lg:mt-6">
+                    {{-- Label Sub-judul (Mobile: Kiri, Desktop: Menyesuaikan) --}}
+                    <div class="inline-flex items-center gap-3 mb-10">
+                        <span class="text-travel-tertiary text-sm font-bold tracking-widest uppercase">Misi Kami</span>
+                        <span class="w-12 h-px bg-travel-tertiary"></span>
+                    </div>
+
+                    {{-- Daftar Misi Minimalis --}}
+                    <div class="flex flex-col gap-8 md:gap-10">
+
+                        {{-- Poin 01 --}}
+                        <div class="flex gap-6 md:gap-8 group">
+                            <div class="shrink-0">
+                                <span
+                                    class="text-4xl md:text-5xl font-black text-gray-800 group-hover:text-travel-primary transition-colors duration-500">01</span>
+                            </div>
+                            <div class="flex flex-col justify-center">
+                                <h4 class="text-xl md:text-2xl font-bold text-white mb-2">Perencanaan Aman & Nyaman</h4>
+                                <p
+                                    class="text-base text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors duration-300">
+                                    Memfasilitasi dan memberikan kemudahan dalam perencanaan perjalanan wisata yang aman dan
+                                    nyaman.
+                                </p>
+                            </div>
+                        </div>
+
+                        {{-- Garis Pemisah Tipis --}}
+                        <hr class="border-gray-800/60">
+
+                        {{-- Poin 02 --}}
+                        <div class="flex gap-6 md:gap-8 group">
+                            <div class="shrink-0">
+                                <span
+                                    class="text-4xl md:text-5xl font-black text-gray-800 group-hover:text-travel-primary transition-colors duration-500">02</span>
+                            </div>
+                            <div class="flex flex-col justify-center">
+                                <h4 class="text-xl md:text-2xl font-bold text-white mb-2">Paket Wisata Inovatif</h4>
+                                <p
+                                    class="text-base text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors duration-300">
+                                    Menyediakan beragam pilihan paket perjalanan yang inovatif, menarik, dan berkualitas
+                                    tinggi.
+                                </p>
+                            </div>
+                        </div>
+
+                        {{-- Garis Pemisah Tipis --}}
+                        <hr class="border-gray-800/60">
+
+                        {{-- Poin 03 --}}
+                        <div class="flex gap-6 md:gap-8 group">
+                            <div class="shrink-0">
+                                <span
+                                    class="text-4xl md:text-5xl font-black text-gray-800 group-hover:text-travel-primary transition-colors duration-500">03</span>
+                            </div>
+                            <div class="flex flex-col justify-center">
+                                <h4 class="text-xl md:text-2xl font-bold text-white mb-2">Pelayanan Prima Konsisten</h4>
+                                <p
+                                    class="text-base text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors duration-300">
+                                    Berkomitmen memberikan pelayanan prima secara konsisten demi mewujudkan kepuasan
+                                    tertinggi pelanggan.
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
-
-
 
     {{-- Cara Pesan Section --}}
     <section class="w-full bg-zinc-50 py-20 px-4 md:px-6 lg:px-12">
@@ -689,7 +600,6 @@
 
                     {{-- Step 1 --}}
                     <div class="relative flex flex-col items-center text-center group">
-                        {{-- Nomor + Icon --}}
                         <div class="relative mb-6">
                             <div
                                 class="w-20 h-20 rounded-2xl bg-[#e8f8ff] flex items-center justify-center transition-all duration-300 group-hover:bg-travel-primary group-hover:shadow-lg group-hover:shadow-travel-primary/30 group-hover:-translate-y-1">
@@ -699,7 +609,6 @@
                                         d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                                 </svg>
                             </div>
-                            {{-- Badge nomor --}}
                             <span
                                 class="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-travel-primary text-white text-xs font-bold flex items-center justify-center shadow">
                                 1
@@ -795,9 +704,6 @@
         </div>
     </section>
 
-
-
-
     {{-- preview popular package travel section --}}
     <section class="relative z-10 w-full bg-zinc-50 pb-10 md:py-10 px-4 md:px-6 lg:px-12">
         <div class="max-w-7xl mx-auto">
@@ -829,10 +735,7 @@
         </div>
     </section>
 
-
-
-
-    {{-- FAX/pertanyaan umum --}}
+    {{-- FAQ/pertanyaan umum --}}
     <section class=" bg-zinc-50 py-20 px-4 md:px-6 lg:px-12">
         <div class="max-w-4xl mx-auto">
 
@@ -915,7 +818,7 @@
                     <div
                         class="text-gray-600 pb-6 text-sm md:text-base leading-relaxed overflow-hidden transition-all duration-300">
                         Tentu saja! Kami sangat fleksibel. Jika Anda memiliki preferensi destinasi, hotel, atau jadwal
-                        yang berbeda dari paket reguler kami, silakan hubungi Customer Support kami. Tim Nravel akan
+                        yang berbeda dari paket reguler kami, silakan hubungi Customer Support kami. Tim Arfaka akan
                         merancang itinerary yang sesuai dengan keinginan dan budget Anda.
                     </div>
                 </details>
@@ -934,7 +837,7 @@
                     </summary>
                     <div
                         class="text-gray-600 pb-6 text-sm md:text-base leading-relaxed overflow-hidden transition-all duration-300">
-                        Pembayaran dilakukan melalui transfer bank resmi Nravel dengan sistem DP (Down Payment) sebesar
+                        Pembayaran dilakukan melalui transfer bank resmi Arfaka Tour dengan sistem DP (Down Payment) sebesar
                         30% saat pemesanan, dan pelunasan maksimal H-3 sebelum keberangkatan. Untuk kebijakan pembatalan
                         (refund), hal tersebut bergantung pada regulasi hotel dan mitra transportasi kami di waktu
                         tersebut.
@@ -944,8 +847,6 @@
             </div>
         </div>
     </section>
-
-
 
     @push('scripts')
         <script>
@@ -1025,7 +926,7 @@
                 let autoSlide;
 
                 function startAutoSlide() {
-                    autoSlide = setInterval(nextSlide, 4000);
+                    autoSlide = setInterval(nextSlide, 6000);
                 }
 
                 function resetAutoSlide() {

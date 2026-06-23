@@ -1,5 +1,5 @@
 <header id="navbar"
-    class="fixed space-x-2 bg-[#fdfdfd] border-white/10 shadow-lg left-0 top-0 w-full h-20 z-20 flex items-center justify-between px-8 md:px-16 transition-all duration-300">
+    class="fixed space-x-2 bg-[#fdfdfd] border-white/10 shadow-lg left-0 top-0 w-full h-20 z-50 flex items-center justify-between px-8 md:px-16 transition-all duration-300">
     <div class="flex items-center space-x-2">
         <a href="/">
             <img src="{{ asset('img/logoArfaka.svg') }}" alt="logo" class="h-8 md:h-12">
@@ -13,11 +13,11 @@
             <!-- Dropdown Destinasi Desktop -->
             <x-nav-dropdown title="Destinasi" :active="request()->routeIs('packages.by-tipe')">
                 <a href="{{ route('packages.by-tipe', ['tipe' => 'domestik']) }}"
-                    class="block px-6 py-4 text-lg {{ request()->is('destinasi/domestik') ? 'text-lime-500 font-bold bg-travel-primary/10' : 'text-gray-500' }} hover:bg-travel-primary/20 hover:text-gray-900 font-medium transition-colors">
+                    class="block px-6 py-4 text-lg {{ request()->is('paket-wisata/domestik') ? 'text-travel-primary font-bold' : 'text-gray-500' }} hover:bg-travel-primary/20 hover:text-gray-900 font-medium transition-colors">
                     Domestik
                 </a>
                 <a href="{{ route('packages.by-tipe', ['tipe' => 'mancanegara']) }}"
-                    class="block px-6 py-4 text-lg {{ request()->is('destinasi/mancanegara') ? 'text-lime-500 font-bold bg-travel-primary/10' : 'text-gray-500' }} hover:bg-travel-primary/20 hover:text-gray-900 font-medium transition-colors">
+                    class="block px-6 py-4 text-lg {{ request()->is('paket-wisata/mancanegara') ? 'text-travel-primary font-bold' : 'text-gray-500' }} hover:bg-travel-primary/20 hover:text-gray-900 font-medium transition-colors">
                     Mancanegara
                 </a>
             </x-nav-dropdown>
@@ -28,7 +28,7 @@
 
     <div class="flex items-center space-x-3 md:space-x-4">
         {{-- no wa berasal/disimpan dari .env --}}
-        <a href="https://wa.me/{{ env('WHATSAPP_NUMBER') }}?text=test untuk direct ke wa" target="_blank"
+        <a href="https://wa.me/{{ $company->phone ?? '' }}?text={{ urlencode('Halo Arfaka Tour & Travel, saya ingin berkonsultasi mengenai rencana perjalanan wisata.') }}" target="_blank"
             class="hidden md:flex items-center cursor-pointer bg-lime-400 text-gray-900 p-2 md:p-4 rounded-full hover:bg-lime-500 transition">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                 class="bi bi-whatsapp" viewBox="0 0 16 16">
@@ -86,27 +86,25 @@
         </a>
 
         <!-- Dropdown Destinasi Versi Mobile (Accordion) -->
-        <div x-data="{ open: 'true' }">
+        <div x-data="{ open: true }">
             <button @click="open = !open"
-                class="flex items-center justify-between w-full text-lg font-medium transition-colors cursor-pointer {{ request()->is('destinasi*') ? 'text-travel-primary font-bold' : 'text-gray-700 hover:text-travel-primary-dark' }}">
+                class="flex items-center justify-between w-full text-lg font-medium transition-colors cursor-pointer {{ request()->is('paket-wisata*') ? 'text-travel-primary font-bold' : 'text-gray-700 hover:text-travel-primary-dark' }}">
                 <span>Destinasi</span>
 
-                <!-- Icon Panah yang berputar saat dibuka -->
                 <svg class="w-5 h-5 transition-transform duration-200" :class="{ 'rotate-180': open }" fill="none"
                     stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                 </svg>
             </button>
 
-            <!-- Sub-menu yang muncul di bawahnya -->
             <div x-show="open" x-transition class="flex flex-col pl-4 mt-3 space-y-3 border-l-2 border-travel-primary"
                 style="display: none;">
                 <a href="{{ route('packages.by-tipe', 'domestik') }}"
-                    class="text-base text-gray-600 hover:text-travel-primary font-medium transition-colors cursor-pointer">
+                    class="text-base {{ request()->is('paket-wisata/domestik') ? 'text-travel-primary font-bold' : 'text-gray-600 hover:text-travel-primary' }} font-medium transition-colors cursor-pointer">
                     Domestik
                 </a>
                 <a href="{{ route('packages.by-tipe', 'mancanegara') }}"
-                    class="text-base text-gray-600 hover:text-travel-primary font-medium transition-colors cursor-pointer">
+                    class="text-base {{ request()->is('paket-wisata/mancanegara') ? 'text-travel-primary font-bold' : 'text-gray-600 hover:text-travel-primary' }} font-medium transition-colors cursor-pointer">
                     Manca Negara
                 </a>
             </div>
@@ -125,7 +123,7 @@
 
     <div class="p-6 border-t border-gray-100">
         {{-- no wa berasal/disimpan dari .env --}}
-        <a href="https://wa.me/{{ env('WHATSAPP_NUMBER') }}?text=test untuk direct ke wa" target="_blank"
+        <a href="https://wa.me/{{ $company->phone ?? '' }}?text=test untuk direct ke wa" target="_blank"
             class="flex w-full justify-center gap-3 text-center bg-lime-400 text-gray-900 py-3 rounded-xl font-semibold hover:bg-lime-500 transition shadow-md">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                 class="bi bi-whatsapp" viewBox="0 0 16 16">
@@ -141,7 +139,7 @@
 
 {{-- CTA WA Button --}}
 <div class="fixed bottom-8 right-8 z-20 md:hidden">
-    <a href="https://wa.me/{{ env('WHATSAPP_NUMBER') }}?text=test untuk direct ke wa" target="_blank"
+    <a href="https://wa.me/{{ $company->phone ?? '' }}?text=test untuk direct ke wa" target="_blank"
         class="flex items-center cursor-pointer bg-lime-400 text-gray-900 p-4 md:p-4 rounded-full hover:bg-lime-500 transition">
         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-whatsapp"
             viewBox="0 0 16 16">

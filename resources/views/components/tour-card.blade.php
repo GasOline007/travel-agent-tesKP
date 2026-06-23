@@ -14,12 +14,12 @@
         </div>
 
         {{-- Badge Recommended / Paling Populer (Kiri Atas) --}}
-        @if (isset($paket->is_recommended) && $paket->is_recommended)
+        @if ($paket->is_recommended)
             <div
                 class="absolute -top-2 -left-16 bg-travel-primary w-48 h-20 text-gray-900 shadow-lg flex items-center justify-center z-10 -rotate-45">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    class="lucide lucide-thumbs-up-icon lucide-thumbs-up size-10 rotate-45 group-hover:animate-bounce text-white">
+                    class="lucide lucide-thumbs-up-icon lucide-thumbs-up size-10 rotate-45 text-white">
                     <path
                         d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z" />
                     <path d="M7 10v12" />
@@ -32,16 +32,17 @@
     <div class="relative p-6 flex flex-col grow">
 
         {{-- KATEGORI (Gaya Pill Tags Dinamis) --}}
-        @if (isset($paket->category) && is_array($paket->category))
+        @if ($paket->categories->isNotEmpty())
             <div class="flex flex-wrap gap-2 mb-4">
-                @foreach ($paket->category as $kategori)
+                @foreach ($paket->categories as $kategori)
                     <span
                         class="bg-lime-50 border border-travel-secondary-dark text-travel-secondary-dark text-[10px] font-extrabold uppercase tracking-widest px-2.5 py-1 rounded-full">
-                        {{ $kategori }}
+                        {{ $kategori->name }}
                     </span>
                 @endforeach
             </div>
         @endif
+
 
         {{-- Lokasi --}}
         <div class="flex items-center text-sm text-gray-500 mb-2 font-medium">

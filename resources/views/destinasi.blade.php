@@ -22,7 +22,7 @@
             <nav class="flex mt-8 text-sm md:text-xl font-medium" aria-label="Breadcrumb">
                 <a href="{{ route('home') }}" class="text-white hover:text-travel-tertiary-dark">Beranda</a>
                 <span class="mx-2 text-white">/</span>
-                <a href="{{ route('packages.by-tipe', $tipe) }}" class="text-white hover:text-travel-tertiary-dark">Pilih Kota</a>
+                <a href="{{ route('packages.tipe') }}" class="text-white hover:text-travel-tertiary-dark">Pilih Kota</a>
                 @if (request('lokasi'))
                     <span class="mx-2 text-white">/</span>
                     <span class="text-travel-tertiary">{{ request('lokasi') }}</span>
@@ -50,7 +50,7 @@
     </section>
 
     {{-- search bar untuk cari paket spesifik --}}
-    <div class="max-w-3xl mx-auto -mt-8">
+    <div class="max-w-3xl mx-auto -mt-8 relative z-20">
         <form action="{{ url()->current() }}" method="GET" class="relative">
             {{-- search input group --}}
             <div class="relative mx-2">
@@ -63,11 +63,11 @@
 
                 {{-- Input text 'cari' --}}
                 <input type="search" name="cari" value="{{ request('cari') }}"
-                    class="block w-full p-4 pl-12 text-gray-900 shadow-xl rounded-full bg-white focus:ring-primarytext-travel-primary focus:border-primarytext-travel-primary transition-all outline-none"
+                    class="block w-full p-4 pl-12 text-gray-900 shadow-xl rounded-full bg-white focus:ring-travel-primary focus:border-travel-primary transition-all outline-none border border-gray-200"
                     placeholder="Cari destinasi @if (request('lokasi')) di {{ request('lokasi') }} @endif">
 
                 <button type="submit"
-                    class="cursor-pointer text-gray-900 absolute right-2.5 bottom-2.5 bg-primarytext-travel-primary hover:bg-travel-primary-dark font-bold rounded-full text-sm px-6 py-2 transition-colors">
+                    class="cursor-pointer text-white absolute right-2.5 bottom-2.5 bg-travel-primary hover:bg-travel-primary-dark font-bold rounded-full text-sm px-6 py-2 transition-colors">
                     Cari
                 </button>
             </div>
@@ -76,25 +76,30 @@
             <div class="mt-6 px-4 md:px-0">
                 <p class="text-gray-500 text-xs font-bold uppercase tracking-widest mb-3 ml-2">Pilih Kategori:</p>
                 <div class="flex flex-wrap gap-3 items-center">
+
+                    {{-- Tombol Semua --}}
                     <label class="cursor-pointer">
                         <input type="radio" name="kategori" value="" class="hidden peer"
                             onchange="this.form.submit()" {{ request('kategori') == '' ? 'checked' : '' }}>
                         <span
-                            class="px-5 py-2.5 rounded-full border border-gray-200 bg-white text-gray-600 text-sm font-semibold transition-all peer-checked:bg-travel-primary peer-checked:text-white peer-checked:border-PRIbg-travel-primary hover:border-PRIbg-travel-primary shadow-sm block">
+                            class="px-5 py-2.5 rounded-full border border-gray-200 bg-white text-gray-600 text-sm font-semibold transition-all peer-checked:bg-travel-primary peer-checked:text-white peer-checked:border-travel-primary hover:border-travel-primary shadow-sm block">
                             Semua
                         </span>
                     </label>
 
-                    @foreach (['Open Trip', 'Family Gathering', 'Meeting Planner'] as $kat)
+                    @foreach ($categories as $kategori)
                         <label class="cursor-pointer">
-                            <input type="radio" name="kategori" value="{{ $kat }}" class="hidden peer"
-                                onchange="this.form.submit()" {{ request('kategori') == $kat ? 'checked' : '' }}>
+                            {{-- value diisi dengan slug, teks tampilan diisi dengan name dari database --}}
+                            <input type="radio" name="kategori" value="{{ $kategori->slug }}" class="hidden peer"
+                                onchange="this.form.submit()"
+                                {{ request('kategori') == $kategori->slug ? 'checked' : '' }}>
                             <span
-                                class="px-5 py-2.5 rounded-full border border-gray-200 bg-white text-gray-600 text-sm font-semibold transition-all peer-checked:bg-travel-primary peer-checked:text-white peer-checked:border-PRIbg-travel-primary hover:border-PRIbg-travel-primary shadow-sm block">
-                                {{ $kat }}
+                                class="px-5 py-2.5 rounded-full border border-gray-200 bg-white text-gray-600 text-sm font-semibold transition-all peer-checked:bg-travel-primary peer-checked:text-white peer-checked:border-travel-primary hover:border-travel-primary shadow-sm block">
+                                {{ $kategori->name }}
                             </span>
                         </label>
                     @endforeach
+
                 </div>
             </div>
         </form>
@@ -132,12 +137,12 @@
                 </div>
             @endforelse
         </div>
+
+        {{-- Pagination Links --}}
+        <div class="mt-12">
+            {{ $packages->links() }}
+        </div>
     </main>
-
-
-
-
-
 
     {{-- CTA Custom Paket --}}
     <section class="max-w-7xl mx-auto px-4 md:px-6 lg:px-12 pb-20">

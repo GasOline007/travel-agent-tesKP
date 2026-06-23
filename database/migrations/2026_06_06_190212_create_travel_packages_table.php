@@ -16,20 +16,14 @@ return new class extends Migration
             $table->enum('type', ['domestik', 'mancanegara'])->default('domestik');
             $table->string('name');
             $table->string('slug')->unique();
-            $table->json('category')->nullable();
             $table->boolean('is_recommended')->default(false);
             $table->decimal('price', 15, 2);
             $table->decimal('original_price', 15, 2)->nullable();
-            $table->json('trip_sequence')->nullable();
-            $table->string('duration')->nullable(); // Contoh: "3 Days 2 Nights"
+            $table->json('trip_sequence')->nullable(); // tetap JSON, hanya untuk urutan tampilan
+            $table->string('duration')->nullable();
             $table->string('location');
-            $table->string('image')->nullable(); // Untuk sampul card
+            $table->string('image')->nullable();
             $table->text('description')->nullable();
-            $table->json('gallery')->nullable(); // Untuk gallery preview
-            $table->json('itinerary')->nullable();
-            $table->json('inclusions')->nullable();
-            $table->json('exclusions')->nullable();
-            $table->json('notes')->nullable();
             $table->timestamps();
         });
     }

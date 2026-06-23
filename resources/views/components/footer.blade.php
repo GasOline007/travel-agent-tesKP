@@ -32,19 +32,17 @@
             <div>
                 <h3 class="text-white font-semibold mb-6 uppercase tracking-wider text-sm">Jelajahi</h3>
                 <ul class="space-y-4 text-sm">
-                    <li><a href="/destinasi" class="hover:text-white transition-colors duration-300">Semua Destinasi</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors duration-300">Paket Promo</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors duration-300">Galeri Perjalanan</a></li>
+                    <li><a href="{{ route('packages.tipe') }}" class="hover:text-white transition-colors duration-300">Semua Destinasi</a></li>
+                    <li><a href="{{  route('gallery') }}" class="hover:text-white transition-colors duration-300">Galeri Perjalanan</a></li>
                 </ul>
             </div>
 
             <div>
                 <h3 class="text-white font-semibold mb-6 uppercase tracking-wider text-sm">Perusahaan</h3>
                 <ul class="space-y-4 text-sm">
-                    <li><a href="/about" class="hover:text-white transition-colors duration-300">Tentang Arfaka</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors duration-300">Hubungi Kami</a></li>
+                    <li><a href="/tentang-arfaka" class="hover:text-white transition-colors duration-300">Tentang Arfaka</a></li>
+                    <li><a href="https://wa.me/{{ $company->phone ?? '' }}?text={{ urlencode('Halo Arfaka Tour & Travel, saya ingin berkonsultasi mengenai rencana perjalanan wisata.') }}" class="hover:text-white transition-colors duration-300" target="_blank">Hubungi Kami</a></li>
                     <li><a href="#" class="hover:text-white transition-colors duration-300">Syarat & Ketentuan</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors duration-300">Kebijakan Privasi</a></li>
                 </ul>
             </div>
 

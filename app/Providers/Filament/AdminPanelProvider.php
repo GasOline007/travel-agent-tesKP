@@ -33,8 +33,8 @@ class AdminPanelProvider extends PanelProvider
             ])
 
             ->brandName('Arfaka Travel Admin') // Mengubah teks di pojok kiri atas
-            ->brandLogo(asset('img/logoArfaka.jpg')) // Menggunakan logo gambar
-            ->favicon(asset('img/logoArfaka.jpg')) // Mengubah icon tab browser
+            ->brandLogo(asset('img/logoArfaka.svg')) // Menggunakan logo gambar
+            ->favicon(asset('img/logoArfaka.svg')) // Mengubah icon tab browser
 
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
